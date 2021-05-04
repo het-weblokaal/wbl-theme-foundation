@@ -17,9 +17,7 @@
 	},
 	"autoload"    : {
 		"psr-4" : {},
-		"files" : [
-			"bootstrap.php"
-		]
+		"files" : []
 	},
 	"require"     : {
 		"php" : ">=7.0"
