@@ -1,0 +1,33 @@
+{
+	"name"        : "het-weblokaal/wbl-theme-foundation",
+	"description" : "A theme foundation by Het Weblokaal",
+	"keywords"    : [ "wordpress" ],
+	"homepage"    : "https://github.com/het-weblokaal/wbl-theme-foundation",
+	"license"     : "GPL-2.0-or-later",
+	"authors"     : [
+		{
+			"name"     : "Erik Joling",
+			"email"    : "erik.info@hetweblokaal.nl",
+			"homepage" : "https://www.hetweblokaal.nl",
+			"role"     : "Developer"
+		}
+	],
+	"support"     : {
+		"issues" : "https://github.com/het-weblokaal/wbl-theme-foundation/issues"
+	},
+	"autoload"    : {
+		"psr-4" : {},
+		"files" : [
+			"bootstrap.php"
+		]
+	},
+	"require"     : {
+		"php" : ">=7.0"
+	},
+	"config": {
+		"optimize-autoloader": true,
+		"sort-packages": true
+	},
+	"minimum-stability": "dev",
+	"prefer-stable": true
+}
