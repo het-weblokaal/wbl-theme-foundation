@@ -1,9 +1,6 @@
 <?php
 /**
- * Asset-related functions and filters.
- *
- * This file holds some setup actions for scripts and styles as well as a helper
- * functions for work with assets.
+ * Site-related functions and filters.
  */
 
 namespace WBL\Theme;

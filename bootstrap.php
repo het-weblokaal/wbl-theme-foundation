@@ -36,6 +36,7 @@ array_map( function( $file ) {
 array_map( function( $file ) {
 	require_once( "theme/{$file}.php" );
 }, [
+	'assets',
 	'block-editor',
 	'customizer',
 	'custom-templates',

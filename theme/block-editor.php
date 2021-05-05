@@ -32,16 +32,16 @@ add_action( 'after_setup_theme', function() {
 
 	// Core Block Patterns
 	remove_theme_support( 'core-block-patterns' );
+	
+	// Remove block directory (installation of new blocks through the editor)
+	remove_action( 'enqueue_block_editor_assets', 'wp_enqueue_editor_block_directory_assets' );
+	remove_action( 'enqueue_block_editor_assets', 'gutenberg_enqueue_block_editor_assets_block_directory' );
 
 	// Setup allowed blocks
 	add_filter( 'allowed_block_types', 'WBL\Theme\allowed_block_types', 10, 2 );
 
 	// Show gutenberg on page_for_posts page (blog/home)
 	add_filter( 'replace_editor', 'WBL\Theme\enable_block_editor_on_blog_page', 10, 2 );
-
-	// Remove block directory (installation of new blocks through the editor)
-	remove_action( 'enqueue_block_editor_assets', 'wp_enqueue_editor_block_directory_assets' );
-	remove_action( 'enqueue_block_editor_assets', 'gutenberg_enqueue_block_editor_assets_block_directory' );
 
 }, 5 );
 
