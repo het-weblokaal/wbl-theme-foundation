@@ -48,19 +48,3 @@ function render_body_classes() {
 function display_body_classes() {
 	echo render_body_classes();
 }
-
-/**
- * Adds the meta charset to the header.
- */
-function display_meta_charset() {
-
-	echo sprintf( '<meta charset="%s" />' . "\n", esc_attr( \get_bloginfo( 'charset' ) ) );
-}
-
-/**
- * Adds the meta viewport to the header.
- */
-function display_meta_viewport() {
-
-	echo '<meta name="viewport" content="width=device-width, initial-scale=1" />' . "\n";
-}

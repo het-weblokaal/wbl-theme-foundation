@@ -5,6 +5,35 @@
 
 namespace WBL\Theme;
 
+# ------------------------------------------------------------------------------
+# Hooking
+# ------------------------------------------------------------------------------
+
+add_action( 'after_setup_theme', function() {
+
+	// Menu Class
+	add_filter( 'nav_menu_css_class',         'WBL\Theme\nav_menu_css_class',         5, 2 );
+	add_filter( 'nav_menu_item_id',           'WBL\Theme\nav_menu_item_id',           5    );
+	add_filter( 'nav_menu_submenu_css_class', 'WBL\Theme\nav_menu_submenu_css_class', 5    );
+	add_filter( 'nav_menu_link_attributes',   'WBL\Theme\nav_menu_link_attributes',   5    );
+
+}, 5 );
+
+/**
+ * Init hook menus
+ */
+add_action( 'init', function() {
+
+	// Register site navigation
+	register_nav_menus( [
+		'site-nav'     => esc_html_x( 'Website navigation', 'nav menu location' ),
+	] );
+
+}, 5 );
+
+# ------------------------------------------------------------------------------
+# Functions
+# ------------------------------------------------------------------------------
 
 
 /**
@@ -30,6 +59,9 @@ function get_menu_id_by_location( $location ) {
 }
 
 
+# ------------------------------------------------------------------------------
+# Filters
+# ------------------------------------------------------------------------------
 
 /**
  * Simplifies the nav menu class system.

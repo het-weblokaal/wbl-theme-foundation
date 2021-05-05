@@ -7,6 +7,21 @@ namespace WBL\Theme;
 
 use Kirki;
 
+# ------------------------------------------------------------------------------
+# Hooking
+# ------------------------------------------------------------------------------
+
+add_action( 'after_setup_theme', function() {
+
+	// Manage customizer panels and settings
+	// add_action( 'customize_register', 'WBL\Theme\manage_customizer', 50 );
+	
+}, 5 );
+
+# ------------------------------------------------------------------------------
+# Functions
+# ------------------------------------------------------------------------------
+
 /**
  * Manage the panels and sections of the customizer
  *

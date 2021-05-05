@@ -5,6 +5,21 @@
 
 namespace WBL\Theme;
 
+# ------------------------------------------------------------------------------
+# Hooking
+# ------------------------------------------------------------------------------
+
+add_action( 'after_setup_theme', function() {
+
+	// Register the required plugins for this theme.
+	add_action( 'tgmpa_register', 'WBL\Theme\register_dependencies' );
+	
+}, 5 );
+
+# ------------------------------------------------------------------------------
+# Functions
+# ------------------------------------------------------------------------------
+
 /**
  * Register the required plugins for this theme.
  *
