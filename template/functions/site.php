@@ -8,26 +8,30 @@
 namespace WBL\Theme;
 
 /**
- * Get the site logo (theme, custom-logo or text fallback)
+ * Get the site logo (theme image, theme svg, custom-logo or text fallback)
  *
  * @return string
  */
 function render_site_logo() {
 	$html = '';
 
-	// Try to get logo
-	$theme_logo = apply_filters( 'wbl/theme/site-logo', Theme::get_asset_uri('img/logo.png') );
-
-	if ($theme_logo) {
+	// Try theme image logo
+	if (file_exists(Theme::get_asset_path('img/logo.png'))) {
 
 		// Setup theme logo
 		$html = sprintf( '<img class="%s" src="%s" alt="%s" />', 
 			'site-logo site-logo--image',
-			$theme_logo,
+			Theme::get_asset_uri('img/logo.png'),
 			'Logo ' . Theme::get_name()
 		);
 	}
 
+	// Try theme svg logo
+	elseif ($svg = Theme::svg('logo')) {
+		$html = $svg;
+	}
+
+	// Try custom logo
 	elseif ( get_theme_support('custom-logo') ) {
 
 		// Setup custom logo
@@ -42,7 +46,7 @@ function render_site_logo() {
 		);
 	} 
 
-	return $html;
+	return apply_filters( 'wbl/theme/site-logo', $html );
 }
 
 function display_site_logo() {
