@@ -34,7 +34,7 @@ function manage_site_meta_title( $meta_title ) {
 
 		// Set meta if we find an archive page
 		if ( $blog_page_id = get_option( 'page_for_posts' ) ) {
-			$meta_description = get_site_meta_title( $blog_page_id );
+			$meta_title = get_site_meta_title( $blog_page_id );
 		}
 	}
 
@@ -66,7 +66,7 @@ function manage_site_meta_description( $meta_description ) {
  * @return string
  */
 function get_site_meta_title( $post_id ) {
-	return get_slim_seo_data( $post_id )['title'] ?? wp_get_document_title();
+	return get_slim_seo_data( $post_id )['title'] ?? false;
 }
 
 /**
@@ -76,7 +76,7 @@ function get_site_meta_title( $post_id ) {
  * @return string
  */
 function get_site_meta_description( $post_id ) {
-	return get_slim_seo_data( $post_id )['description'] ?? wp_get_document_title();
+	return get_slim_seo_data( $post_id )['description'] ?? false;
 }
 
 /**
