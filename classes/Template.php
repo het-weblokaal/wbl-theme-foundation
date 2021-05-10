@@ -187,7 +187,7 @@ final class Template {
 		// WordPress Core Action
 		do_action( 'get_template_part', $slug, $hierarchy, $templates, $args );
 		
-		Theme::log($templates);
+		// Theme::log($templates);
 
 		$locate_template = locate_template( $templates, true, false, $args );
 
