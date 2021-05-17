@@ -6,132 +6,153 @@
 namespace WBL\Theme;
 
 # ------------------------------------------------------------------------------
-# Hooking
+# Hook it up
 # ------------------------------------------------------------------------------
 
 add_action( 'after_setup_theme', function() {
 
-	add_theme_support( 'editor-styles' );
-
-	// Alignment
+	/**
+	 * Add support for wide and full aligned blocks
+	 *
+	 * This adds nice layout diversity
+	 *
+	 * @link https://developer.wordpress.org/block-editor/how-to-guides/themes/theme-support/#wide-alignment
+	 */
 	add_theme_support( 'align-wide' );
 
-	// Disable custom colors
+	/**
+	 * Disable the CUSTOM colors. 
+	 * 
+	 * We don't want users to get too creative..
+	 *
+	 * @link https://developer.wordpress.org/block-editor/how-to-guides/themes/theme-support/#disabling-custom-colors-in-block-color-palettes
+	 */
 	add_theme_support( 'disable-custom-colors' );
 
-	// Disable gradients
+	/**
+	 * Disable all gradients. 
+	 *
+	 * We don't support this yet in our themes
+	 *
+	 * @link https://developer.wordpress.org/block-editor/how-to-guides/themes/theme-support/#block-gradient-presets
+	 * @link https://developer.wordpress.org/block-editor/how-to-guides/themes/theme-support/#disabling-custom-gradients
+	 */
 	add_theme_support( 'editor-gradient-presets' );
 	add_theme_support( 'disable-custom-gradients' );
 
-	// Disable font-sizes
+	/**
+	 * Disable all font-sizes. 
+	 *
+	 * Our policy is to let the theme decide on font sizes.
+	 *
+	 * @link https://developer.wordpress.org/block-editor/how-to-guides/themes/theme-support/#block-font-sizes
+	 * @link https://developer.wordpress.org/block-editor/how-to-guides/themes/theme-support/#disabling-custom-font-sizes
+	 */
 	add_theme_support( 'editor-font-sizes' );
 	add_theme_support( 'disable-custom-font-sizes' );
 
-	// Custom Spacing (Experimental)
-	// add_theme_support( 'experimental-custom-spacing' );
-
-	// Core Block Patterns
+	/**
+	 * Disable Core Block Patterns.
+	 *
+	 * They are not relevant for our users.
+	 */
 	remove_theme_support( 'core-block-patterns' );
+
+
+	/**
+	 * Automatically transform editor styles by selectively rewriting or adjusting certain CSS selectors.  
+	 *
+	 * @link https://developer.wordpress.org/block-editor/how-to-guides/themes/theme-support/#editor-styles
+	 */
+	add_theme_support( 'editor-styles' );
+
+	/**
+	 * Remove default block styles
+	 *
+	 * Core blocks include default structural styles. These are loaded in both the editor and the front end 
+	 * by default. An example of these styles is the CSS that powers the columns block. Without these rules, 
+	 * the block would result in a broken layout containing no columns at all.
+	 *
+	 * We take this responsibility on ourselves.
+	 *
+	 * @link https://developer.wordpress.org/block-editor/how-to-guides/themes/theme-support/#default-block-styles
+	 */	 
+	add_action( 'wp_enqueue_scripts', function() {
+		wp_dequeue_style( 'wp-block-library' );
+	} );
 	
-	// Remove block directory (installation of new blocks through the editor)
+	/**
+	 * Remove access to the Block Directory (ie. installation of new blocks through the editor)
+	 *
+	 * We don't want our users to just install any block they like.
+	 *
+	 * @link https://developer.wordpress.org/block-editor/reference-guides/filters/editor-filters/#block-directory
+	 */ 
 	remove_action( 'enqueue_block_editor_assets', 'wp_enqueue_editor_block_directory_assets' );
 	remove_action( 'enqueue_block_editor_assets', 'gutenberg_enqueue_block_editor_assets_block_directory' );
 
-	// Setup allowed blocks
-	add_filter( 'allowed_block_types', 'WBL\Theme\allowed_block_types', 10, 2 );
+	/**
+	 * Restrict the allowed blocks (opinionated)
+	 *
+	 * Themes can override this by hooking later to this filter.
+	 *
+	 * @link https://developer.wordpress.org/block-editor/reference-guides/filters/block-filters/#hiding-blocks-from-the-inserter
+	 */
+	add_filter( 'allowed_block_types', __NAMESPACE__ . '\allowed_block_types', 10, 2 );
 
-	// Show gutenberg on page_for_posts page (blog/home)
-	add_filter( 'replace_editor', 'WBL\Theme\enable_block_editor_on_blog_page', 10, 2 );
+	/**
+	 * Show block-editor on page_for_posts page (blog/home)
+	 *
+	 * @link 
+	 */
+	add_filter( 'replace_editor', __NAMESPACE__ . '\enable_block_editor_on_blog_page', 10, 2 );
 
 }, 5 );
 
 # ------------------------------------------------------------------------------
-# Functions
+# Elaborate functionality
 # ------------------------------------------------------------------------------
 
 /**
- * Get the allowed blocks (used by filter)
+ * Restrict allowed blocks
+ *
+ * @link https://gist.github.com/erikjoling/7b05c3e3411244d126808bab46529d78
+ * @link https://github.com/WordPress/gutenberg/blob/trunk/packages/block-library/src/index.js 
  */
 function allowed_block_types( $allowed_blocks, $post ) {
 
 	$allowed_blocks = [
-		// 'core/archives',
-		// 'core/audio',
-		// 'core/block',
+
+		// Core blocks
 		'core/button',
 		'core/buttons',
-		// 'core/calendar',
-		// 'core/categories',
-		// 'core/classic',
-		// 'core/code',
 		'core/column',
 		'core/columns',
 		'core/cover',
 		'core/embed',
-		// 'core-embed/youtube',
 		'core/file',
-		// 'core/gallery',
 		'core/group',
 		'core/heading',
 		'core/html',
 		'core/image',
-		// 'core/latest-comments',
-		// 'core/latest-posts',
-		// 'core/legacy-widget',
 		'core/list',
-		// 'core/media-text',
-		// 'core/missing',
-		// 'core/more',
-		// 'core/navigation-link',
-		// 'core/navigation',
-		// 'core/nextpage',
 		'core/paragraph',
-		// 'core/post-author',
-		// 'core/post-comments-count',
-		// 'core/post-comments-form',
-		// 'core/post-comments',
-		// 'core/post-content',
-		// 'core/post-date',
-		// 'core/post-excerpt',
-		// 'core/post-featured-image',
-		// 'core/post-tags',
-		// 'core/post-title',
-		// 'core/preformatted',
 		'core/pullquote',
-		// 'core/query-loop',
-		// 'core/query-pagination',
-		// 'core/query',
 		'core/quote',
-		// 'core/rss',
-		// 'core/search',
-		// -- 'core/separator',
-		// 'core/shortcode',
-		// 'core/site-logo',
-		// 'core/site-tagline',
-		// 'core/site-title',
-		// 'core/social-link',
-		// 'core/social-links',
-		// 'core/spacer',
-		// 'core/subhead',
 		'core/table',
-		// 'core/tag-cloud',
-		// 'core/template-part',
-		// 'core/text-columns',
-		// 'core/verse',
-		// 'core/video',
-		// 'core/widget-area',
 
+		// WBL blocks
 		// 'wbl/segment',
 		// 'wbl/container',
 
+		// Third Party blocks
 		'contact-form-7/contact-form-selector',
 	];
 
 	// Uncomment to allow all blocks
-	// return true;
+	// $allowed_blocks = true;
 
-	// Allow all blocks if no blocks are specified
-    return apply_filters( 'wbl/theme/allowed_block_types', $allowed_blocks );
+    return $allowed_blocks;
 }
 
 

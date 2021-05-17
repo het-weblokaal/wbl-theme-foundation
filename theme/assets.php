@@ -15,16 +15,13 @@ namespace WBL\Theme;
 add_action( 'after_setup_theme', function() {
 
 	// Manage default scripts & styles
-	add_action( 'wp_enqueue_scripts', 'WBL\Theme\add_frontend_scripts_and_styles' );
-
-	// Remove block editor styles
-	add_action( 'wp_enqueue_scripts', 'WBL\Theme\remove_frontend_block_editor_styles' );
+	add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\add_frontend_scripts_and_styles' );
 
 	// Add theme editor style to editor
-	add_action( 'enqueue_block_editor_assets', 'WBL\Theme\add_editor_scripts_and_styles' );
+	add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\add_editor_scripts_and_styles' );
 
 	// Remove google font from block editor
-	add_action( 'enqueue_block_editor_assets', 'WBL\Theme\remove_google_font_from_block_editor' );
+	add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\remove_google_font_from_block_editor' );
 
 }, 5 );
 

@@ -196,6 +196,7 @@ final class Template {
 			// Theme::log($template_data);
     	}
     	else {
+			Theme::log($templates);
     		Theme::log('Template not found');
 		    return false;
     	}

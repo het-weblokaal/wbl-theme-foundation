@@ -516,7 +516,8 @@ final class Theme {
 	private static function set_slug() {
 
 		// Get slug from expected folder structure (<app-slug>/vendor/wbl-app.php)
-		$slug = basename(dirname(dirname(__FILE__)));
+		// $slug = basename(dirname(dirname(__FILE__)));
+		$slug = basename( get_theme_file_path() );
 
 		static::$slug = $slug;
 	}

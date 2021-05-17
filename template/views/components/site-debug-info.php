@@ -9,14 +9,14 @@ if ( ! Theme::is_debug_mode() ) {
 
 ?>
 
-<div class="debug-info">
-	<div class="debug-info__grid">
+<div class="site-debug-info">
+	<div class="site-debug-info__grid">
 
 	</div>
-	<div class="debug-info__version">
+	<div class="site-debug-info__version">
 		<?= Theme::get_version() ?>
 	</div>
-	<div class="debug-info__responsiveness">
+	<div class="site-debug-info__responsiveness">
 
 	</div>
 </div>

@@ -35,3 +35,9 @@ The goal of templating in this framework:
 - Making it easier to implement own templates
 
 The templates should be flexible and easy to understand. On the other hand, the amount of code should be low to prevent too much repetivity.
+
+# Developer
+
+Some guidelines:
+
+- Only hook an anonymous functions to an action if the theme can easily override the functionality. Otherwise create a seperate function.
