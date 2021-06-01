@@ -18,8 +18,7 @@ final class Template {
 	 * @var array
 	 */
 	private static $args = [
-		'main_template_dir'   => 'vendor/het-weblokaal/wbl-theme-foundation/template/views',
-		'custom_template_dir' => 'app/views',
+		'main_template_dir' => 'vendor/het-weblokaal/wbl-theme-foundation/template/views'
 	];
 
 	/**
@@ -109,7 +108,7 @@ final class Template {
 	private static function set_custom_template_dir() {
 
 		// Set the template dir based on class $args
-		$custom_template_dir = static::$args['custom_template_dir'];
+		$custom_template_dir = Theme::get_template_dir();
 
 		// Not leading and trailing slashes
 		$custom_template_dir = trim($custom_template_dir, '/');

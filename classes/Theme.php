@@ -615,6 +615,22 @@ final class Theme {
 	}
 
 	/**
+	 * Sets the template directory
+	 *
+	 * @return void
+	 */
+	private static function set_template_dir() {
+
+		// Try to get value from arguments
+		$template_dir = static::$args['template_dir'];
+
+		// Not leading and trailing slashes
+		$template_dir = trim($template_dir, '/');
+
+		static::$template_dir = $template_dir;
+	}
+
+	/**
 	 * Sets the app blocks directory
 	 *
 	 * @return void
