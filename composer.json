@@ -13,7 +13,8 @@
 		}
 	],
 	"support"     : {
-		"issues" : "https://github.com/het-weblokaal/wbl-theme-foundation/issues"
+		"issues" : "https://github.com/het-weblokaal/wbl-theme-foundation/issues",
+		"source" : "https://github.com/het-weblokaal/wbl-theme-foundation"
 	},
 	"autoload"    : {
 		"psr-4" : {},
