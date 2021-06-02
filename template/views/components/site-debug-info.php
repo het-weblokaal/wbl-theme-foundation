@@ -2,7 +2,7 @@
 
 namespace WBL\Theme;
 
-/// Only show site version on development
+// Only show site version on development
 if ( ! Theme::is_debug_mode() ) {
 	return;
 }

@@ -126,14 +126,8 @@ function body_class( $classes ) {
 	}
 
 	if ( Theme::is_debug_mode() ) {
-		$classes[] = 'is-development';
-
-		if ( Theme::is_local_environment() ) {
-			$classes[] = 'is-development--local';
-		}
-		else {
-			$classes[] = 'is-development--online';
-		}
+		$classes[] = "is-debug-mode";
+		$classes[] = "is-debug-mode--" . wp_get_environment_type();
 	}
 
 	return array_map( 'esc_attr', $classes );

@@ -770,44 +770,13 @@ final class Theme {
 
 	/**
 	 * Check whether the site is in debug mode.
+	 * 
+	 * @idea: enable debug-mode independant on environment type, but based on the 
+	 * logged-in user (check for Het Weblokaal email)
 	 */
 	public static function is_debug_mode() {
 
-		$environment = wp_get_environment_type();
-
-		$is_debug_mode = ($environment == 'development' || $environment == 'staging');
-
-		/**
-		 * In the future I could also flag environment as development on 'staging' and 'production'
-		 * when the logged-in user is developer or designer (check for Het Weblokaal email)
-		 */
-
-		return $is_debug_mode;
-	}
-
-	/**
-	 * Check whether the site is local or online
-	 */
-	public static function is_local_environment() {
-
-		// We assume we are online
-		$is_local_environment = false;
-
-		// Parse domain
-	    $domain_array = explode(".", $_SERVER['SERVER_NAME']);
-	    $domain_extension = end($domain_array);
-
-	    // Check domain_extension
-	    if ($domain_extension == 'test' || $domain_extension == 'dev') {
-	    	$is_local_environment = true;
-	    }
-
-	    // Or check if localhost
-	    elseif ( strpos( $_SERVER['SERVER_NAME'], 'localhost' ) !== false ) {
-	    	$is_local_environment = true;
-	    }
-
-		return $is_local_environment;
+		return !(wp_get_environment_type() == 'production');
 	}
 
 	/**
