@@ -151,16 +151,15 @@ function render_entry_terms( array $args = [] ) {
 	$html = '';
 
 	$args = wp_parse_args( $args, [
-		'taxonomy' => 'category',
-		'text'     => '%s',
-		'class'    => '',
-		'sep'      => ', ',
+		'taxonomy'      => 'category',
+		'text'          => '%s',
+		'base_class'    => 'entry',
+		'extra_classes' => '',
+		'sep'           => ', ',
 	] );
 
 	// Append taxonomy to class name.
-	if ( ! $args['class'] ) {
-		$args['class'] = "entry__terms entry__terms--{$args['taxonomy']}";
-	}
+	$class = "{$args['base_class']}__terms {$args['base_class']}__terms--{$args['taxonomy']}";
 
 	$terms = get_the_term_list( get_the_ID(), $args['taxonomy'], '', $args['sep'], '' );
 
@@ -168,7 +167,7 @@ function render_entry_terms( array $args = [] ) {
 
 		$html = sprintf(
 			'<span class="%s">%s</span>',
-			esc_attr( $args['class'] ),
+			esc_attr( $class ),
 			sprintf( $args['text'], $terms )
 		);
 	}
