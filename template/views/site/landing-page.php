@@ -7,10 +7,10 @@ namespace WBL\Theme;
 
 	<?php Template::display( 'components/page-skip-to-content' ) ?>
 
-	<?php Template::display( 'site/header', Template::hierarchy() ) ?>
+	<?php Template::display( 'site/header' ) ?>
 
-	<?php Template::display( 'site/main', Template::hierarchy() ) ?>
+	<?php Template::display( 'site/main' ) ?>
 
-	<?php Template::display( 'site/footer', Template::hierarchy() ) ?>
+	<?php Template::display( 'site/footer' ) ?>
 
 </div>

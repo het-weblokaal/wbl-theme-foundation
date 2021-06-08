@@ -7,6 +7,6 @@ namespace WBL\Theme;
 
 	<?php the_post(); // Setup postdata (only on singular templates) ?>
 
-	<?php Template::display( 'page', Template::hierarchy() ) ?>
+	<?php Template::display( 'page' ) ?>
 
 </main>

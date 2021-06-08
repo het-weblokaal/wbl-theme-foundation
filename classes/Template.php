@@ -142,7 +142,11 @@ final class Template {
 	 *
 	 * @link /wp-includes/general-template.php
 	 */
-	public static function display( $slug, $hierarchy = [], $args = [] ) {
+	public static function display( $slug, $hierarchy = null, $args = [] ) {
+
+		if ( is_null($hierarchy) ) {
+			$hierarchy = static::page_hierarchy();
+		}
 
 		// Default args
 		$args = wp_parse_args( $args, [
@@ -186,16 +190,16 @@ final class Template {
 		// WordPress Core Action
 		do_action( 'get_template_part', $slug, $hierarchy, $templates, $args );
 		
-		// Theme::log($templates);
+		Theme::log($templates);
 
 		$locate_template = locate_template( $templates, true, false, $args );
 
 		if ( $locate_template ) {
-			// Theme::log($locate_template);
+			Theme::log($locate_template);
 			// Theme::log($template_data);
     	}
     	else {
-			Theme::log($templates);
+			// Theme::log($templates);
     		Theme::log('Template not found');
 		    return false;
     	}
@@ -275,12 +279,12 @@ final class Template {
 	}
 
 	/**
-	 * Get template hierarchy
+	 * Get hierarchy for main templates
 	 *
 	 * @link https://github.com/themehybrid/hybrid-core/blob/master/src/Template/Hierarchy.php
 	 * @return array
 	 */
-	public static function hierarchy() {	
+	public static function page_hierarchy() {	
 
 		$template_hierarchy = ['index'];
 
@@ -337,7 +341,7 @@ final class Template {
 	}
 
 	/**
-	 * Get template hierarchy
+	 * Get template hierarchy of loop entries
 	 *
 	 * @link https://github.com/themehybrid/hybrid-core/blob/master/src/Template/Hierarchy.php
 	 * @return array
