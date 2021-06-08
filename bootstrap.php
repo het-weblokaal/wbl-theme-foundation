@@ -4,49 +4,48 @@ namespace WBL\Theme;
 
 
 # ------------------------------------------------------------------------------
-# Load classes
-# ------------------------------------------------------------------------------
-
-// Load Theme class
-require_once( "classes/Theme.php" );
-
-// Load Template class
-require_once( "classes/Template.php" );
-
-
-# ------------------------------------------------------------------------------
-# Load template files.
+# Load the foundation
 # ------------------------------------------------------------------------------
 
 array_map( function( $file ) {
-	require_once( "template/functions/{$file}.php" );
+	require_once( "foundation/{$file}.php" );
 }, [
-	'comments',
-	'entry',
-	'helpers',
-	'html-head',
-	'page',
-	'site',
+	// Classes
+	'classes/App.php'
+
+	// Functions
+	'setup/assets',
+	'setup/block-editor',
+	'setup/customizer',
+	'setup/custom-templates',
+	'setup/dependencies',
+	'setup/entry',
+	'setup/media',
+	'setup/menu',
+	'setup/misc',
+	'setup/password-protection',
+	'setup/polylang',
+	'setup/seo',
+	'setup/site',
 ] );
 
+
 # ------------------------------------------------------------------------------
-# Load theme files.
+# Load templating system.
 # ------------------------------------------------------------------------------
 
 array_map( function( $file ) {
-	require_once( "theme/{$file}.php" );
+	require_once( "templating/{$file}.php" );
 }, [
-	'assets',
-	'block-editor',
-	'customizer',
-	'custom-templates',
-	'dependencies',
-	'entry',
-	'media',
-	'menu',
-	'misc',
-	'password-protection',
-	'polylang',
-	'seo',
-	'site',
+	// Classes
+	'classes/Template.php'
+
+	// Functions
+	'functions/comments',
+	'functions/entry',
+	'functions/helpers',
+	'functions/html-head',
+	'functions/page',
+	'functions/site',
 ] );
+
