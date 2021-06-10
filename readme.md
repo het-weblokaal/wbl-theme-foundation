@@ -16,7 +16,7 @@ When I develop the foundation I like to work in a seperate git-directory when de
 
 ```
 require_once( __DIR__ . '/../wbl-theme-foundation/bootstrap.php' );
-Template::customize(['main_template_dir' => '../wbl-theme-foundation/template/views']);
+Template::customize(['foundation_template_dir' => '../wbl-theme-foundation/template/views']);
 ```
 _Probably not best-practice, but it works for me now._
 
