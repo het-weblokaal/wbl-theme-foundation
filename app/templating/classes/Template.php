@@ -114,7 +114,7 @@ final class Template {
 		$locate_template = locate_template( $template_locations, true, false, $args );
 
 		if ( $locate_template ) {
-			App::log($locate_template);
+			// App::log($locate_template);
 			// App::log($template_data);
     	}
     	else {
@@ -161,6 +161,86 @@ final class Template {
 		return $templates;
 	}
 
+	/**
+	 * Get template types
+	 *
+	 * This is used by hierarchy and to generate css classes for the site root
+	 * 
+	 * @return array
+	 */
+	public static function get_template_types() {
+
+		// Initialize
+		$template_types = array();
+
+		// 404 template type
+		if (is_404()) {
+			$template_types[] = '404';
+		}
+		
+		// Single template types
+		elseif (\is_singular()) {
+
+			// Custom page template
+			if ( $page_template = get_page_template_slug() ) {
+
+				// Strip potential .php extension from template name
+				$template_types[] = 'single--' . rtrim($page_template, '.php');
+			}
+			elseif ( is_front_page() ) {
+				$template_types[] = 'single--front-page';
+			}
+
+			// Single post type
+			$template_types[] = 'single--' . get_post_type();
+
+			// Default single
+			$template_types[] = 'single';
+		}
+
+		// Archive template types
+		elseif (is_archive() || is_home() || is_search()) {
+
+			// We see `search` as an archive
+			if (is_search()) {
+				$template_types[] = 'archive--search';
+			}
+
+			// Post type archives
+			elseif (\is_home() || \is_post_type_archive()) {
+				$template_types[] = 'archive--' . get_post_type_on_archive();
+			}
+
+			// Taxonomies
+			elseif (\is_category() || \is_tag() || \is_tax()) {
+
+				if (\is_category()) {
+					$template_types[] = 'archive--category';
+				}
+				elseif (\is_tag()) {
+					$template_types[] = 'archive--tag';
+				}
+				elseif (\is_tax()) {
+					$template_types[] = 'archive--' . get_query_var( 'taxonomy' );
+				}
+
+				$template_types[] = 'archive--tax';
+			}
+
+			// Author and dates
+			elseif (\is_author()) {
+				$template_types[] = 'archive--author';
+			}
+			elseif (\is_date()) {
+				$template_types[] = 'archive--date';
+			}
+
+			// Default archive
+			$template_types[] = 'archive';
+		}
+
+		return $template_types;
+	}
 
 	/**
 	 * Get hierarchy for main templates
@@ -173,58 +253,11 @@ final class Template {
 		// Initialize
 		$template_hierarchy = array();
 
-		// Try `Page not found` template_type
-		if (is_404()) {
-			$template_hierarchy[] = '404';
-		}
-		
-		// Try singular template hierarchy
-		elseif (\is_singular()) {
+		// Get template types
+		$template_hierarchy = static::get_template_types();
 
-			// Display custom page-template
-			if ( $page_template = get_page_template_slug() ) {
-
-				// Strip potential .php extension from template name
-				$template_hierarchy[] = rtrim($page_template, '.php');
-			}
-
-			$template_hierarchy[] = get_post_type();
-		}
-
-		// Try archive template hierarchy
-		elseif (is_archive() || is_home() || is_search()) {
-
-			// Display search page template
-			if (is_search()) {
-				$template_hierarchy[] = 'archive-search';
-			}
-			elseif (\is_home() || \is_post_type_archive()) {
-				$template_hierarchy[] = 'archive-' . get_post_type_on_archive();
-			}
-			elseif (\is_category() || \is_tag() || \is_tax()) {
-				$template_hierarchy[] = 'archive-tax';
-
-				if (\is_category()) {
-					$template_hierarchy[] = 'archive-tax-category';
-				}
-				elseif (\is_tag()) {
-					$template_hierarchy[] = 'archive-tax-tag';
-				}
-				elseif (\is_tax()) {
-					$template_hierarchy[] = 'archive-tax-' . get_query_var( 'taxonomy' );
-				}
-			}
-			elseif (\is_author()) {
-				$template_hierarchy[] = 'archive-author';
-			}
-			elseif (\is_date()) {
-				$template_hierarchy[] = 'archive-date';
-			}
-
-			$template_hierarchy[] = 'archive';
-		}
-
-		$template_hierarchy[] = 'index';
+		// Add default
+		$template_hierarchy[] = 'default';
 
 		return $template_hierarchy;
 	}
@@ -250,7 +283,7 @@ final class Template {
 			$template_hierarchy[] = get_post_type();
 		}
 
-		$template_hierarchy[] = 'index';
+		$template_hierarchy[] = 'default';
 
 		return $template_hierarchy;
 	}

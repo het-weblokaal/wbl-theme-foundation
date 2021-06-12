@@ -87,38 +87,23 @@ function body_class( $classes ) {
 	// Reset..
 	$classes = [];
 
-	if ( \is_singular() ) {
-		$classes[] = 'is-singular';
-		$classes[] = 'is-singular--' . \get_post_type();
+	// Get template types
+	$template_types = Template::get_template_types();
 
-		if ($status = get_password_protection_status()) {
-			$classes[] = 'is-password-protected';
-			$classes[] = "is-password-protected--$status";
-		}
+	// Reverse the types to make more sense as css classes
+	$template_types = array_reverse( $template_types );
 
-		if (\is_front_page()) {
-			$classes[] = 'is-front-page';
-		}
-
-		// Check for custom template
-		if ($template = get_page_template_slug()) {
-
-			// Normalizes template name
-			$template = str_replace( [ 'template-', 'tmpl-' ], '', basename( $template, '.php' ) );
-
-			$classes[] = "is-template";
-			$classes[] = "is-template--{$template}";
-		}
+	foreach ($template_types as $template_type) {
+		$classes[] = "is-{$template_type}";
 	}
-	elseif ( \is_archive() || \is_home() ) {
-		$classes[] = 'is-archive';
-		$classes[] = 'is-archive--' . \get_post_type();
-	}
-	elseif ( \is_404() ) {
-		$classes[] = 'is-404';
-	}
-	elseif ( \is_search() ) {
-		$classes[] = 'is-search';
+
+	/**
+	 * Other classes
+	 */
+
+	if ($status = get_password_protection_status()) {
+		$classes[] = 'is-password-protected';
+		$classes[] = "is-password-protected--$status";
 	}
 
 	if ( \is_admin_bar_showing() ) {
