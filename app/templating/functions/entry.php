@@ -84,7 +84,8 @@ function render_entry_author( array $args = [] ) {
 		$url = get_author_posts_url( get_the_author_meta( 'ID' ) );
 
 		$author = sprintf(
-			'<a class="entry__author-link" href="%s">%s</a>',
+			'<a class="%s" href="%s">%s</a>',
+			esc_attr( $args['class'] ),
 			esc_url( $url ),
 			$author
 		);
@@ -153,13 +154,9 @@ function render_entry_terms( array $args = [] ) {
 	$args = wp_parse_args( $args, [
 		'taxonomy'      => 'category',
 		'text'          => '%s',
-		'base_class'    => 'entry',
-		'extra_classes' => '',
+		'class'		    => 'entry__category',
 		'sep'           => ', ',
 	] );
-
-	// Append taxonomy to class name.
-	$class = "{$args['base_class']}__terms {$args['base_class']}__terms--{$args['taxonomy']}";
 
 	$terms = get_the_term_list( get_the_ID(), $args['taxonomy'], '', $args['sep'], '' );
 
@@ -167,7 +164,7 @@ function render_entry_terms( array $args = [] ) {
 
 		$html = sprintf(
 			'<span class="%s">%s</span>',
-			esc_attr( $class ),
+			esc_attr( $args['class'] ),
 			sprintf( $args['text'], $terms )
 		);
 	}

@@ -48,6 +48,9 @@ function html_classes( $classes, $show_class_attribute = false ) {
 		$html = esc_attr( implode( ' ', $classes ) );
 		$html = trim( $html );
 	}
+	elseif ( is_string($classes) && $classes ) {
+		$html = esc_attr( $classes );
+	}
 
 	return ($show_class_attribute) ? "class=\"$html\"": $html;
 }
