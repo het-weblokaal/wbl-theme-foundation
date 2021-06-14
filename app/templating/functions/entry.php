@@ -152,22 +152,41 @@ function render_entry_terms( array $args = [] ) {
 	$html = '';
 
 	$args = wp_parse_args( $args, [
-		'taxonomy'      => 'category',
-		'text'          => '%s',
-		'class'		    => 'entry__category',
-		'sep'           => ', ',
+		'taxonomy'    => 'category',
+		'link'        => true,
+		'term_format' => '%s',
+		'sep'         => ', ',
 	] );
 
-	$terms = get_the_term_list( get_the_ID(), $args['taxonomy'], '', $args['sep'], '' );
+	$taxonomy = $args['taxonomy'];
+    $terms = get_the_terms( get_the_ID(), $args['taxonomy'] );
+ 
+    if ( is_wp_error( $terms ) ) {
+        return $terms;
+    }
+ 
+    if ( empty( $terms ) ) {
+        return false;
+    }
 
-	if ( $terms ) {
+    $_terms = array();
+ 
+    foreach ( $terms as $term ) {
 
-		$html = sprintf(
-			'<span class="%s">%s</span>',
-			esc_attr( $args['class'] ),
-			sprintf( $args['text'], $terms )
-		);
-	}
+    	if ($args['link']) {
+        	$link = get_term_link( $term, $args['taxonomy'] );
+
+	        if ( is_wp_error( $link ) ) {
+	            return $link;
+	        }
+	        $_terms[] = '<a href="' . esc_url( $link ) . '" rel="tag" class="'. $args['taxonomy'] . '">' . sprintf( $args['term_format'], $term->name ) . '</a>';
+    	}
+    	else {
+	        $_terms[] = '<span class="'. $args['taxonomy'] . '">' . sprintf( $args['term_format'], $term->name ) . '</span>';
+    	}
+    }
+
+    $html = implode($args['sep'], $_terms);
 
 	return apply_filters( 'wbl/theme/entry/terms', $html );
 }
