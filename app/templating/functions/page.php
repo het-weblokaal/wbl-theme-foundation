@@ -56,6 +56,21 @@ function get_page_title() {
 	return apply_filters( 'page_title', $page_title );
 }
 
+function get_single_title() {
+
+	$single_title = '';
+
+	if ( \is_singular() ) {
+		$single_title = get_the_title(get_queried_object_id());
+	}
+
+	elseif ( \is_404() ) {
+		$single_title = get_404_title();
+	}
+
+	return $single_title;
+}
+
 /**
  * Get archive title
  *
@@ -71,7 +86,10 @@ function get_archive_title() {
 
 	elseif (is_home()) {
 
-		if ( ! is_front_page() ) {
+		if (is_front_page()) {
+			$archive_title = 'Home';
+		}
+		else {
 			$archive_title = get_the_title(get_queried_object_id());
 		}
 	}

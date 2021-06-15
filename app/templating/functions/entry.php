@@ -74,7 +74,7 @@ function render_entry_author( array $args = [] ) {
 
 	$args = wp_parse_args( $args, [
 		'text'   => '%s',
-		'class'  => 'entry__author',
+		'class'  => 'entry-author',
 		'link'   => false,
 	] );
 
@@ -106,7 +106,7 @@ function render_entry_date( array $args = [] ) {
 
 	$args = wp_parse_args( $args, [
 		'text'   => '%s',
-		'class'  => 'entry__date',
+		'class'  => 'entry-date',
 		'format' => get_option( 'date_format' ),
 		'nicename' => true,
 	] );
@@ -142,7 +142,7 @@ function render_entry_date( array $args = [] ) {
 }
 
 /**
- * Returns the post terms HTML.
+ * Returns the entry terms HTML.
  *
  * @param  array  $args
  * @return string
@@ -151,14 +151,15 @@ function render_entry_terms( array $args = [] ) {
 
 	$html = '';
 
+	$args['taxonomy'] = $args['taxonomy'] ?? 'category';
+
 	$args = wp_parse_args( $args, [
-		'taxonomy'    => 'category',
+		'class'       => 'entry-' . $args['taxonomy'],
 		'link'        => true,
 		'term_format' => '%s',
 		'sep'         => ', ',
 	] );
 
-	$taxonomy = $args['taxonomy'];
     $terms = get_the_terms( get_the_ID(), $args['taxonomy'] );
  
     if ( is_wp_error( $terms ) ) {
@@ -173,22 +174,50 @@ function render_entry_terms( array $args = [] ) {
  
     foreach ( $terms as $term ) {
 
+    	$term_name = sprintf( $args['term_format'], $term->name );
+
     	if ($args['link']) {
         	$link = get_term_link( $term, $args['taxonomy'] );
 
 	        if ( is_wp_error( $link ) ) {
 	            return $link;
 	        }
-	        $_terms[] = '<a href="' . esc_url( $link ) . '" rel="tag" class="'. $args['taxonomy'] . '">' . sprintf( $args['term_format'], $term->name ) . '</a>';
+	        $_terms[] = '<a href="' . esc_url( $link ) . '" rel="tag" class="'. $args['class'] . '">' . $term_name . '</a>';
     	}
     	else {
-	        $_terms[] = '<span class="'. $args['taxonomy'] . '">' . sprintf( $args['term_format'], $term->name ) . '</span>';
+	        $_terms[] = '<span class="'. $args['class'] . '">' . $term_name . '</span>';
     	}
     }
 
     $html = implode($args['sep'], $_terms);
 
-	return apply_filters( 'wbl/theme/entry/terms', $html );
+	return apply_filters( 'wbl/theme/entry/'.$args['taxonomy'], $html );
+}
+
+/**
+ * Returns the post categories HTML.
+ *
+ * @param  array  $args
+ * @return string
+ */
+function render_entry_categories( array $args = [] ) {
+
+	$args['taxonomy'] = 'category';
+
+	return render_entry_terms( $args );
+}
+
+/**
+ * Returns the post tags HTML.
+ *
+ * @param  array  $args
+ * @return string
+ */
+function render_entry_tags( array $args = [] ) {
+
+	$args['taxonomy'] = 'post_tag';
+
+	return render_entry_terms( $args );
 }
 
 
