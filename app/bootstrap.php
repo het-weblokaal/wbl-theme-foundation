@@ -53,3 +53,14 @@ array_map( function( $file ) {
 	'functions/site',
 ] );
 
+
+# ------------------------------------------------------------------------------
+# Load blocks.
+# ------------------------------------------------------------------------------
+
+array_map( function( $file ) {
+	require_once( "blocks/{$file}.php" );
+}, [
+	'archive-loop/index',
+] );
+

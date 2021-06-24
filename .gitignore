@@ -1,0 +1,10 @@
+# NPM
+/node_modules
+
+# Composer
+# Note 1: we don't ignore vendor because we deploy the dependancies as part of the project
+# Note 2: we don't ignore composer.lock, because this represents the state of composer in the project
+
+# Codesniffer
+/phpcs.xml
+/.phpcs.xml

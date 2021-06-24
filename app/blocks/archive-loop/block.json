@@ -1,0 +1,19 @@
+{
+	"apiVersion": 2,
+	"name": "wbl-theme/archive-loop",
+	"title": "Archive Loop",
+	"category": "layout",
+	"icon": "list-view",
+	"description": "Use this block on archives to determine where the loop will show",
+	"keywords": [ "Archive", "Loop", "Query", "Posts" ],
+	"textdomain": "wbl-theme",
+	"attributes": {},
+	"supports": {
+		"align"              : [],
+		"anchor"             : false,
+		"className"			 : false,
+		"customClassName"    : false,
+		"defaultStylePicker" : false,
+		"html"               : false
+	}
+}

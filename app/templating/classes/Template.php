@@ -30,7 +30,7 @@ final class Template {
 	/**
 	 * Render template file
 	 */
-	private static function render( $slug, $hierarchy = null, $args = [] ) {
+	public static function render( $slug, $hierarchy = null, $args = [] ) {
 
 		ob_start();
 
@@ -205,34 +205,34 @@ final class Template {
 			if (is_search()) {
 				$template_types[] = 'archive--search';
 			}
-
-			// Post type archives
-			elseif (\is_home() || \is_post_type_archive()) {
-				$template_types[] = 'archive--' . get_post_type_on_archive();
-			}
-
-			// Taxonomies
-			elseif (\is_category() || \is_tag() || \is_tax()) {
-
-				if (\is_category()) {
-					$template_types[] = 'archive--category';
-				}
-				elseif (\is_tag()) {
-					$template_types[] = 'archive--tag';
-				}
-				elseif (\is_tax()) {
-					$template_types[] = 'archive--' . get_query_var( 'taxonomy' );
-				}
-
-				$template_types[] = 'archive--tax';
-			}
-
-			// Author and dates
+			// Author
 			elseif (\is_author()) {
 				$template_types[] = 'archive--author';
 			}
+			// Date
 			elseif (\is_date()) {
 				$template_types[] = 'archive--date';
+			}
+			// All other archives
+			else {
+				
+				// Taxonomies
+				if (\is_category() || \is_tag() || \is_tax()) {
+
+					if (\is_category()) {
+						$template_types[] = 'archive--category';
+					}
+					elseif (\is_tag()) {
+						$template_types[] = 'archive--tag';
+					}
+					elseif (\is_tax()) {
+						$template_types[] = 'archive--' . get_query_var( 'taxonomy' );
+					}
+
+					$template_types[] = 'archive--tax';
+				}			
+
+				$template_types[] = 'archive--' . get_post_type_on_archive();	
 			}
 
 			// Default archive
