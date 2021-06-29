@@ -19,22 +19,6 @@ namespace WBL\Theme;
 final class App {
 
 	/**
-	 * Arguments with which the app can be influenced
-	 *
-	 * @var array
-	 */
-	private static $args = [
-		'id'             => '',
-		'app_dir'        => 'app',
-		'assets_dir'     => 'assets',
-		'templates_dir'  => 'templates',
-		'blocks_dir'     => 'app/blocks',
-		'lang_dir'       => 'assets/lang',
-		'vendor_dir'     => 'vendor',
-		'foundation_dir' => 'vendor/het-weblokaal/wbl-theme-foundation'
-	];
-
-	/**
 	 * The id of the app. i.e. the handle
 	 *
 	 * @var string
@@ -42,25 +26,11 @@ final class App {
 	private static $id;
 
 	/**
-	 * The slug of the app
-	 *
-	 * @var string
-	 */
-	private static $slug;
-
-	/**
 	 * The name of the app to show to endusers
 	 *
 	 * @var string
 	 */
 	private static $name;
-
-	/**
-	 * The directory of this library relative to the theme
-	 *
-	 * @var string
-	 */
-	private static $foundation_dir;
 
 	/**
 	 * Directory path with trailing slash.
@@ -133,18 +103,18 @@ final class App {
 	private static $vendor_dir;
 
 	/**
+	 * The directory of this library relative to the theme
+	 *
+	 * @var string
+	 */
+	private static $foundation_dir;
+
+	/**
 	 * Laravel mix manifest
 	 *
 	 * @var string
 	 */
 	private static $mix_manifest = null;
-
-	/**
-	 * WBL App version
-	 *
-	 * @var string
-	 */
-	private static $wbl_app_version = null;
 
 	/**
      * Constructor method.
@@ -153,17 +123,44 @@ final class App {
      */
     private function __construct() {}
 
-	/**
-	 * Customize some App properties
+    /**
+	 * Statically boot
 	 *
 	 * @return void
 	 */
-	public static function customize( $args ) {
-		$args = wp_parse_args( $args, static::$args );
+	public static function boot( $args = [] ) {
 
-		static::$args = $args;
+		$args = wp_parse_args( $args, [
+			'id'             => '',
+			'app_dir'        => 'app',
+			'assets_dir'     => 'assets',
+			'templates_dir'  => 'templates',
+			'blocks_dir'     => 'app/blocks',
+			'lang_dir'       => 'assets/lang',
+			'vendor_dir'     => 'vendor',
+			'foundation_dir' => 'vendor/het-weblokaal/wbl-theme-foundation'
+		] );
+
+		/**
+		 * The order of these setters is important because some 
+		 * depend on the other
+		 */
+		static::set_id( $args['id'] );
+		static::set_name();
+		static::set_path();
+		static::set_uri();
+		static::set_meta_file();
+		static::set_version();
+		static::set_app_dir( $args['app_dir'] );
+		static::set_assets_dir( $args['assets_dir'] );
+		static::set_templates_dir( $args['templates_dir'] );
+		static::set_blocks_dir( $args['blocks_dir'] );
+		static::set_lang_dir( $args['lang_dir'] );
+		static::set_vendor_dir( $args['vendor_dir'] );
+		static::set_foundation_dir( $args['foundation_dir'] );
+		static::set_mix_manifest();
+
 	}
-
 
 	/*=============================================================*/
 	/**                        Getters                             */
@@ -176,25 +173,7 @@ final class App {
 	 */
 	public static function get_id() {
 
-		if ( is_null(static::$id) ) {
-			static::set_id();
-		}
-
 		return static::$id;
-	}
-
-	/**
-	 * Gets the app slug
-	 *
-	 * @return string $slug
-	 */
-	public static function get_slug() {
-
-		if ( is_null(static::$slug) ) {
-			static::set_slug();
-		}
-
-		return static::$slug;
 	}
 
 	/**
@@ -203,10 +182,6 @@ final class App {
 	 * @return string $name
 	 */
 	public static function get_name() {
-
-		if ( is_null(static::$name) ) {
-			static::set_name();
-		}
 
 		return static::$name;
 	}
@@ -218,10 +193,6 @@ final class App {
 	 */
 	public static function get_foundation_dir() {
 
-		if ( is_null(static::$foundation_dir) ) {
-			static::set_foundation_dir();
-		}
-
 		return static::$foundation_dir;
 	}
 
@@ -231,10 +202,6 @@ final class App {
 	 * @return string
 	 */
 	public static function get_path() {
-
-		if ( is_null(static::$path) ) {
-			static::set_path();
-		}
 
 		return static::$path;
 	}
@@ -246,10 +213,6 @@ final class App {
 	 */
 	public static function get_uri() {
 
-		if ( is_null(static::$uri) ) {
-			static::set_uri();
-		}
-
 		return static::$uri;
 	}
 
@@ -259,10 +222,6 @@ final class App {
 	 * @return string
 	 */
 	public static function get_meta_file() {
-
-		if ( is_null(static::$meta_file) ) {
-			static::set_meta_file();
-		}
 
 		return static::$meta_file;
 	}
@@ -274,10 +233,6 @@ final class App {
 	 */
 	public static function get_version() {
 
-		if ( is_null(static::$version) ) {
-			static::set_version();
-		}
-
 		return static::$version;
 	}
 
@@ -287,10 +242,6 @@ final class App {
 	 * @return string
 	 */
 	public static function get_app_dir() {
-
-		if ( is_null(static::$app_dir) ) {
-			static::set_app_dir();
-		}
 
 		return static::$app_dir;
 	}
@@ -302,10 +253,6 @@ final class App {
 	 */
 	public static function get_assets_dir() {
 
-		if ( is_null(static::$assets_dir) ) {
-			static::set_assets_dir();
-		}
-
 		return static::$assets_dir;
 	}
 
@@ -315,10 +262,6 @@ final class App {
 	 * @return string
 	 */
 	public static function get_templates_dir() {
-
-		if ( is_null(static::$templates_dir) ) {
-			static::set_templates_dir();
-		}
 
 		return static::$templates_dir;
 	}
@@ -330,10 +273,6 @@ final class App {
 	 */
 	public static function get_blocks_dir() {
 
-		if ( is_null(static::$blocks_dir) ) {
-			static::set_blocks_dir();
-		}
-
 		return static::$blocks_dir;
 	}
 
@@ -343,10 +282,6 @@ final class App {
 	 * @return string
 	 */
 	public static function get_lang_dir() {
-
-		if ( is_null(static::$lang_dir) ) {
-			static::set_lang_dir();
-		}
 
 		return static::$lang_dir;
 	}
@@ -358,10 +293,6 @@ final class App {
 	 */
 	public static function get_vendor_dir() {
 
-		if ( is_null(static::$vendor_dir) ) {
-			static::set_vendor_dir();
-		}
-
 		return static::$vendor_dir;
 	}
 
@@ -372,138 +303,8 @@ final class App {
 	 */
 	private static function get_mix_manifest() {
 
-		if ( is_null(static::$mix_manifest) ) {
-			static::set_mix_manifest();
-		}
-
 		return static::$mix_manifest;
 	}
-
-	/**
-	 * Gets the WBL App version
-	 *
-	 * @return string
-	 */
-	private static function get_wbl_app_version() {
-
-		if ( is_null(static::$wbl_app_version) ) {
-			static::set_wbl_app_version();
-		}
-
-		return static::$wbl_app_version;
-	}
-
-	
-	/**
-	 * Get the file-path within this app
-	 *
-	 * @param string $relative_file relative to this app root
-	 * @return string filepath
-	 */
-	public static function get_file_uri( $relative_file = '' ) {
-
-		$relative_file = trim($relative_file, '/');
-
-		return static::get_uri() . $relative_file;
-	}
-
-	/**
-	 * Get the file-path within this app
-	 *
-	 * @param string $relative_file relative to this app root
-	 * @return string filepath
-	 */
-	public static function get_file_path( $relative_file = '' ) {
-
-		$relative_file = trim($relative_file, '/');
-
-		return static::get_path() . $relative_file;
-	}
-
-	/**
-	 * Get the includes path
-	 *
-	 * @param string $relative_file relative to the includes directory
-	 * @return string filepath
-	 */
-	public static function get_app_path( $relative_file = '' ) {
-
-		// Make sure we have a slash at the front of the path.
-		$relative_file = '/' . ltrim( $relative_file, '/' );
-
-		return static::get_file_path( static::get_app_dir() . $relative_file );
-	}
-
-	/**
-	 * Get the asset uri
-	 *
-	 * @param string $relative_file relative to the asset directory
-	 * @return string filepath
-	 */
-	public static function get_asset_uri( $relative_file = '' ) {
-
-		// Make sure we have a slash at the front of the path.
-		$relative_file = '/' . ltrim( $relative_file, '/' );
-
-		return static::get_file_uri( static::get_assets_dir() . $relative_file );
-	}
-
-	/**
-	 * Get the asset path
-	 *
-	 * @param string $relative_file relative to the asset directory
-	 * @return string filepath
-	 */
-	public static function get_asset_path( $relative_file = '' ) {
-
-		// Make sure we have a slash at the front of the path.
-		$relative_file = '/' . ltrim( $relative_file, '/' );
-
-		return static::get_file_path( static::get_assets_dir() . $relative_file );
-	}
-
-	/**
-	 * Get the blocks path
-	 *
-	 * @param string $relative_file relative to the blocks directory
-	 * @return string filepath
-	 */
-	public static function get_blocks_path( $relative_file = '' ) {
-
-		// Make sure we have a slash at the front of the path.
-		$relative_file = '/' . ltrim( $relative_file, '/' );
-
-		return static::get_file_path( static::get_blocks_dir() . $relative_file );
-	}
-
-	/**
-	 * Get the language path
-	 *
-	 * @param string $relative_file relative to the language directory
-	 * @return string filepath
-	 */
-	public static function get_lang_path( $relative_file = '' ) {
-
-		// Make sure we have a slash at the front of the path.
-		$relative_file = '/' . ltrim( $relative_file, '/' );
-
-		return static::get_file_path( static::get_lang_dir() . $relative_file );
-	}
-
-	/**
-	 * Get the vendor path
-	 *
-	 * @param string $relative_file relative to the vendor directory
-	 * @return string filepath
-	 */
-	public static function get_vendor_path( $relative_file = '' ) {
-
-		// Make sure we have a slash at the front of the path.
-		$relative_file = '/' . ltrim( $relative_file, '/' );
-
-		return static::get_file_path( static::get_vendor_dir() . $relative_file );
-	}
-
 
 	/*=============================================================*/
 	/**                        Setters                             */
@@ -515,32 +316,9 @@ final class App {
 	 *
 	 * @return void
 	 */
-	private static function set_id() {
+	private static function set_id( $id = '') {
 
-		// Try to get value from arguments
-		$id = static::$args['id'];
-
-		if ( ! $id ) {
-
-			// Automattically assign id based on the name of the folder
-			$id = static::get_slug();
-		}
-
-		static::$id = $id;
-	}
-
-	/**
-	 * Sets the app slug
-	 *
-	 * @return void
-	 */
-	private static function set_slug() {
-
-		// Get slug from expected folder structure (<app-slug>/vendor/wbl-app.php)
-		// $slug = basename(dirname(dirname(__FILE__)));
-		$slug = basename( get_theme_file_path() );
-
-		static::$slug = $slug;
+		static::$id = ($id) ? $id : basename( get_theme_file_path() );
 	}
 
 	/**
@@ -550,9 +328,7 @@ final class App {
 	 */
 	private static function set_name() {
 
-		$name = wp_get_theme()->get('Name');
-
-		static::$name = $name;
+		static::$name = wp_get_theme()->get('Name');
 	}
 
 	/**
@@ -562,25 +338,7 @@ final class App {
 	 */
 	private static function set_meta_file() {
 
-		$meta_file = get_theme_file_path('style.css');
-
-		static::$meta_file = $meta_file;
-	}
-
-	/**
-	 * Sets the app directory (with trailing slash)
-	 *
-	 * @return void
-	 */
-	private static function set_foundation_dir() {
-
-		// Try to get value from arguments
-		$foundation_dir = static::$args['foundation_dir'];
-
-		// Not leading and trailing slashes
-		$foundation_dir = trim($foundation_dir, '/');
-
-		static::$foundation_dir = $foundation_dir;
+		static::$meta_file = get_theme_file_path('style.css');
 	}
 
 	/**
@@ -590,9 +348,7 @@ final class App {
 	 */
 	private static function set_path() {
 
-		$path = trailingslashit( get_theme_file_path() );
-
-		static::$path = $path;
+		static::$path = trailingslashit( get_theme_file_path() );
 	}
 
 	/**
@@ -602,9 +358,7 @@ final class App {
 	 */
 	private static function set_uri() {
 
-		$uri = trailingslashit( get_theme_file_uri() );
-
-		static::$uri = $uri;
+		static::$uri = trailingslashit( get_theme_file_uri() );
 	}
 
 	/**
@@ -614,105 +368,77 @@ final class App {
 	 */
 	private static function set_version() {
 
-		$version = wp_get_theme()->get('Version');
-
-		static::$version = $version;
+		static::$version = wp_get_theme()->get('Version');
 	}
 
 	/**
-	 * Sets the app includes directory
+	 * Sets the app directory (without outer slashes)
 	 *
 	 * @return void
 	 */
-	private static function set_app_dir() {
+	private static function set_app_dir( $app_dir ) {
 
-		// Try to get value from arguments
-		$app_dir = static::$args['app_dir'];
-
-		// Not leading and trailing slashes
-		$app_dir = trim($app_dir, '/');
-
-		static::$app_dir = $app_dir;
+		static::$app_dir = trim($app_dir, '/');
 	}
 
 	/**
-	 * Sets the app asset directory
+	 * Sets the assets directory (without outer slashes)
 	 *
 	 * @return void
 	 */
-	private static function set_assets_dir() {
+	private static function set_assets_dir( $assets_dir ) {
 
-		// Try to get value from arguments
-		$assets_dir = static::$args['assets_dir'];
-
-		// Not leading and trailing slashes
-		$assets_dir = trim($assets_dir, '/');
-
-		static::$assets_dir = $assets_dir;
+		static::$assets_dir = trim($assets_dir, '/');
 	}
 
 	/**
-	 * Sets the template directory
+	 * Sets the app templates directory (without outer slashes)
 	 *
 	 * @return void
 	 */
-	private static function set_templates_dir() {
+	private static function set_templates_dir( $templates_dir ) {
 
-		// Try to get value from arguments
-		$templates_dir = static::$args['templates_dir'];
-
-		// Not leading and trailing slashes
-		$templates_dir = trim($templates_dir, '/');
-
-		static::$templates_dir = $templates_dir;
+		static::$templates_dir = trim($templates_dir, '/');
 	}
 
 	/**
-	 * Sets the app blocks directory
+	 * Sets the blocks directory (without outer slashes)
 	 *
 	 * @return void
 	 */
-	private static function set_blocks_dir() {
+	private static function set_blocks_dir( $blocks_dir ) {
 
-		// Try to get value from arguments
-		$blocks_dir = static::$args['blocks_dir'];
-
-		// Not leading and trailing slashes
-		$blocks_dir = trim($blocks_dir, '/');
-
-		static::$blocks_dir = $blocks_dir;
+		static::$blocks_dir = trim($blocks_dir, '/');
 	}
 
 	/**
-	 * Sets the app language directory
+	 * Sets the language directory (without outer slashes)
 	 *
 	 * @return void
 	 */
-	private static function set_lang_dir() {
+	private static function set_lang_dir( $lang_dir ) {
 
-		// Try to get value from arguments
-		$lang_dir = static::$args['lang_dir'];
-
-		// Not leading and trailing slashes
-		$lang_dir = trim($lang_dir, '/');
-
-		static::$lang_dir = $lang_dir;
+		static::$lang_dir = trim($lang_dir, '/');
 	}
 
 	/**
-	 * Sets the app vendor directory
+	 * Sets the vendor directory (without outer slashes)
 	 *
 	 * @return void
 	 */
-	private static function set_vendor_dir() {
+	private static function set_vendor_dir( $vendor_dir ) {
 
-		// Try to get value from arguments
-		$vendor_dir = static::$args['vendor_dir'];
+		static::$vendor_dir = trim($vendor_dir, '/');
+	}
 
-		// Not leading and trailing slashes
-		$vendor_dir = trim($vendor_dir, '/');
+	/**
+	 * Sets the foundation directory (without outer slashes)
+	 *
+	 * @return void
+	 */
+	private static function set_foundation_dir( $foundation_dir ) {
 
-		static::$vendor_dir = $vendor_dir;
+		static::$foundation_dir = trim($foundation_dir, '/');
 	}
 
 	/**
@@ -723,25 +449,13 @@ final class App {
 	private static function set_mix_manifest() {
 
 		// Get mix manifest file
-		$manifest = static::get_asset_path( 'mix-manifest.json' );
+		$manifest = static::assets_path( 'mix-manifest.json' );
 
 		// Get the contents of the manifest
 		$manifest = file_exists( $manifest ) ? json_decode( file_get_contents( $manifest ), true ) : false;
 
 		// Set manifest
 		static::$mix_manifest = $manifest;
-	}
-
-	/**
-	 * Sets the WBL app version
-	 *
-	 * @return void
-	 */
-	private static function set_wbl_app_version() {
-
-		$wbl_app_version = get_file_data( __FILE__, [ 'Version' => 'Version' ] )['Version'] ?? '';
-
-		static::$wbl_app_version = $wbl_app_version;
 	}
 
 
@@ -766,25 +480,44 @@ final class App {
 	}
 
 	/**
+	 * Render uri within this app
+	 *
+	 * @param string $relative_file to this app root
+	 * @return string uri
+	 */
+	public static function uri( $relative_file = '' ) {
+
+		return static::get_uri() . trim($relative_file, '/');
+	}
+
+	/**
+	 * Get the file-path within this app
+	 *
+	 * @param string $relative_file relative to this app root
+	 * @return string filepath
+	 */
+	public static function path( $relative_file = '' ) {
+
+		return static::get_path() . trim($relative_file, '/');
+	}
+
+	/**
 	 * Get asset with cachebusting if it's enabled by laravel mix
 	 *
 	 * @param string $file relative to the asset folder
 	 * @return string filepath
 	 */
-	public static function asset( $file ) {
-
-		// Make sure to trim any slashes from the front of the path.
-		$file = '/' . ltrim( $file, '/' );
+	public static function asset( $relative_file ) {
 
 		// Get manifest
 		$manifest = static::get_mix_manifest();
 
 		// If a file is in the manifest, add the cache-busting path
-		if ( $manifest && isset( $manifest[ $file ] ) ) {
-			$file = $manifest[ $file ];
+		if ( $manifest && isset( $manifest[ $relative_file ] ) ) {
+			$relative_file = $manifest[ $relative_file ];
 		}
 
-		return static::get_asset_uri( $file );
+		return static::assets_uri( $relative_file );
 	}
 
 	/**
@@ -803,6 +536,72 @@ final class App {
 		}
 
 		return $svg;
+	}
+
+	/**
+	 * Get the app path
+	 *
+	 * @param string $relative_file relative to the includes directory
+	 * @return string filepath
+	 */
+	public static function app_path( $relative_file = '' ) {
+
+		return static::path( static::get_app_dir() . '/' . trim( $relative_file, '/' ) );
+	}
+
+	/**
+	 * Get the asset uri
+	 *
+	 * @param string $relative_file relative to the asset directory
+	 * @return string filepath
+	 */
+	public static function assets_uri( $relative_file = '' ) {
+
+		return static::uri( static::get_assets_dir() . '/' . $relative_file );
+	}
+
+	/**
+	 * Get the asset path
+	 *
+	 * @param string $relative_file relative to the asset directory
+	 * @return string filepath
+	 */
+	public static function assets_path( $relative_file = '' ) {
+
+		return static::path( static::get_assets_dir() . '/' . $relative_file );
+	}
+
+	/**
+	 * Get the blocks path
+	 *
+	 * @param string $relative_file relative to the blocks directory
+	 * @return string filepath
+	 */
+	public static function blocks_path( $relative_file = '' ) {
+
+		return static::path( static::get_blocks_dir() . '/' . $relative_file );
+	}
+
+	/**
+	 * Get the language path
+	 *
+	 * @param string $relative_file relative to the language directory
+	 * @return string filepath
+	 */
+	public static function lang_path( $relative_file = '' ) {
+
+		return static::path( static::get_lang_dir() . '/' . $relative_file );
+	}
+
+	/**
+	 * Get the vendor path
+	 *
+	 * @param string $relative_file relative to the vendor directory
+	 * @return string filepath
+	 */
+	public static function vendor_path( $relative_file = '' ) {
+
+		return static::path( static::get_vendor_dir() . '/' . $relative_file );
 	}
 
 	/**
@@ -870,7 +669,7 @@ final class App {
 		static::log( 'MAIN INFO' );
 		static::log( '' );
 		static::log( '   id:        ' . static::get_id() );
-		static::log( '   type:      ' . static::get_type() );
+		static::log( '   slug:      ' . static::get_slug() );
 		static::log( '   name:      ' . static::get_name() );
 		static::log( '   meta_file: ' . static::get_meta_file() );
 		static::log( '   version:   ' . static::get_version() );
@@ -878,8 +677,8 @@ final class App {
 		static::log( '' );
 		static::log( 'PATHS & URLS' );
 		static::log( '' );
-		static::log( '   path:         ' . static::get_path() );
-		static::log( '   uri:          ' . static::get_uri() );
+		static::log( '   path:         ' . static::path() );
+		static::log( '   uri:          ' . static::uri() );
 		static::log( '   app_dir:      ' . static::get_app_dir() );
 		static::log( '   assets_dir:   ' . static::get_assets_dir() );
 		static::log( '   vendor_dir:   ' . static::get_vendor_dir() );
@@ -892,7 +691,6 @@ final class App {
 		static::log( '' );
 		static::log( '   namespace: ' . __NAMESPACE__ );
 		static::log( '   file:      ' . __FILE__ );
-		static::log( '   version:   ' . static::get_wbl_app_version() );
 		static::log( '' );
 		static::log( '' );
 		static::log( '======= END: APP STATUS LOG =======' );

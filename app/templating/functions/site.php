@@ -16,12 +16,12 @@ function render_site_logo() {
 	$html = '';
 
 	// Try theme image logo
-	if (file_exists(App::get_asset_path('img/logo.png'))) {
+	if (file_exists(App::assets_path('img/logo.png'))) {
 
 		// Setup theme logo
 		$html = sprintf( '<img class="%s" src="%s" alt="%s" />', 
 			'site-logo site-logo--image',
-			App::get_asset_uri('img/logo.png'),
+			App::assets_uri('img/logo.png'),
 			'Logo ' . App::get_name()
 		);
 	}

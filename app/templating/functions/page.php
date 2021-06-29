@@ -8,7 +8,6 @@
 
 namespace WBL\Theme;
 
-
 /**
  * Get page title
  *

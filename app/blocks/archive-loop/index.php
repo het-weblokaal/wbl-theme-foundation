@@ -19,7 +19,7 @@ function register_archive_loop_block_script() {
 	// Scripts.
 	wp_enqueue_script(
 		'wbl-archive-loop-block',
-		App::get_file_uri( App::get_foundation_dir() . "/assets/js/archive-loop.js" ),
+		App::uri( App::get_foundation_dir() . "/assets/js/archive-loop.js" ),
 		[
 			'lodash',
 			'wp-blocks',
@@ -40,7 +40,7 @@ function register_archive_loop_block_script() {
  */
 function register_archive_loop_block() {
 
-	register_block_type_from_metadata( App::get_file_path( App::get_foundation_dir() . "/app/blocks/archive-loop" ), [
+	register_block_type_from_metadata( App::path( App::get_foundation_dir() . "/app/blocks/archive-loop" ), [
 		'render_callback' => __NAMESPACE__ . '\render_archive_loop_block',
 	] );
 }

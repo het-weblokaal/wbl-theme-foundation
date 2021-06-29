@@ -71,7 +71,7 @@ function add_theme_data_script() {
 	$theme = [
 		'id' => App::get_id(),
 		'version' => App::get_version(),
-		'assetUri' => App::get_asset_uri(),
+		'assetUri' => App::assets_uri(),
 	];
 
 	echo "<script>var theme = ", json_encode( $theme, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ), "</script>";
