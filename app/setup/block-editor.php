@@ -142,8 +142,11 @@ function allowed_block_types( $allowed_blocks, $post ) {
 		'core/table',
 
 		// WBL blocks
-		// 'wbl/segment',
-		// 'wbl/container',
+		'wbl-blocks/archive-loop',
+		'wbl-blocks/posts',
+
+		// WBL other blocks
+		'wbl-projects/projects',
 
 		// Third Party blocks
 		'contact-form-7/contact-form-selector',
