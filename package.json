@@ -7,13 +7,9 @@
 	"homepage": "https://www.hetweblokaal.nl/",
 	"main": "resources/js/app.js",
 	"scripts": {
-		"build": "npm run prod && npm run i18n",
 		"dev": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
 		"watch": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-		"prod": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-		"i18n": "npm run i18n:textdomain && npm run i18n:pot",
-		"i18n:textdomain": "npx wpi18n addtextdomain --exclude=vendor,node_modules",
-		"i18n:pot": "npx wpi18n makepot --domain-path=/resources/lang"
+		"prod": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
 	},
 	"repository": {
 		"type": "git",
@@ -23,15 +19,9 @@
 		"url": "https://github.com/erikjoling/theme-wbl/issues"
 	},
 	"devDependencies": {
-		"@babel/preset-react": "^7.10.4",
 		"cross-env": "^7.0.2",
 		"laravel-mix": "^5.0.5",
-		"node-wp-i18n": "^1.2.3",
-		"postcss-import": "^12.0.1",
-		"postcss-mixins": "^6.2.3",
-		"postcss-nested": "^4.2.3",
-		"postcss-preset-env": "^6.7.0",
-		"vue-template-compiler": "^2.6.12"
+		"vue-template-compiler": "^2.6.14"
 	},
 	"dependencies": {}
 }
