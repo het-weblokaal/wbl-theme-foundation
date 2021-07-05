@@ -512,9 +512,14 @@ final class App {
 		// Get manifest
 		$manifest = static::get_mix_manifest();
 
+		// Setup manifest key. (relative file with leading slash)
+		$manifest_key = '/' . ltrim($relative_file, '/');
+
 		// If a file is in the manifest, add the cache-busting path
-		if ( $manifest && isset( $manifest[ $relative_file ] ) ) {
-			$relative_file = $manifest[ $relative_file ];
+		if ( $manifest && isset( $manifest[ $manifest_key ] ) ) {
+
+			// Get file with cache busting and remove leading slash
+			$relative_file = ltrim($manifest[ $manifest_key ], '/');
 		}
 
 		return static::assets_uri( $relative_file );
