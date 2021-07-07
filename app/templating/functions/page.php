@@ -9,6 +9,31 @@
 namespace WBL\Theme;
 
 /**
+ * Get the queried post type
+ * 
+ * On a regular page it will be just the page. But on archives it will be
+ * the queried post_type
+ * 
+ * @return string $post_type
+ */
+function get_queried_post_type() {
+
+	$post_type = get_post_type();
+
+	if ( is_home() || is_archive() ) {
+
+		// There is no post_type when there are zero results in archive query
+		if ( !$post_type ) {
+
+    		// Try to get post type form wp_query object
+    		$post_type = $GLOBALS['wp_query']->query['post_type'] ?? $post_type;
+		}
+	}
+	
+	return $post_type;
+}
+
+/**
  * Get page title
  *
  * Note: we use `get_queried_object_id()` so we can get page title even inside other loops

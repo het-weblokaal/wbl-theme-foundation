@@ -13,13 +13,6 @@ namespace WBL\Theme;
 final class Template {
 
 	/**
-	 * Relative path to templates folder of the Foundation
-	 *
-	 * @var string
-	 */
-	private static $templates_dir = 'app/templating/templates';
-
-	/**
      * Constructor method.
      *
      * @return void
@@ -111,11 +104,6 @@ final class Template {
 			$template_locations[] = trim( App::get_templates_dir() . '/' . $template, '/' );
 		}
 
-		// Add foundation path to templates as fallback
-		foreach ($templates as $template) {
-			$template_locations[] = trim( App::get_foundation_dir() . '/' . static::$templates_dir . '/' . $template, '/' );
-		}
-
 		// App::log($template_locations);
 
 		// Try to locatie in theme folder
@@ -200,7 +188,7 @@ final class Template {
 			}
 
 			// Single post type
-			$template_types[] = 'single--' . get_post_type();
+			$template_types[] = 'single--' . get_queried_post_type();
 
 			// Default single
 			$template_types[] = 'single';
@@ -225,33 +213,35 @@ final class Template {
 			else {
 
 				if ( is_home() || is_post_type_archive() ) {
-					$template_types[] = 'archive--post-type';
+					$template_types[] = 'post-type-archive';
+
+					$template_types[] = 'post-type-archive--' . get_queried_post_type();
 				}
 				
 				// Taxonomies
 				elseif (\is_category() || \is_tag() || \is_tax()) {
 
 					if (\is_category()) {
-						$template_types[] = 'archive--category';
+						$template_types[] = 'tax-archive--category';
 					}
 					elseif (\is_tag()) {
-						$template_types[] = 'archive--tag';
+						$template_types[] = 'tax-archive--tag';
 					}
 					elseif (\is_tax()) {
-						$template_types[] = 'archive--' . get_query_var( 'taxonomy' );
+						$template_types[] = 'tax-archive--' . get_query_var( 'taxonomy' );
 					}
 
-					$template_types[] = 'archive--tax';
+					$template_types[] = 'tax-archive';
 				}
 
-				$template_types[] = 'archive--' . get_post_type_on_archive();
+				$template_types[] = 'archive--' . get_queried_post_type();
 			}
 
 			// Default archive
 			$template_types[] = 'archive';
 		}
 
-		return $template_types;
+		return apply_filters( 'wbl/theme/template/types', $template_types );
 	}
 
 	/**
@@ -345,7 +335,6 @@ final class Template {
 		App::log( '' );
 		App::log( '   args:      ' );
 		App::log( static::$args );
-		App::log( '   foundation_template_dir:        ' . static::get_foundation_templates_dir() );
 		App::log( '   theme_template_dir:      ' . App::get_relative_template_dir() );
 		App::log( '' );
 		App::log( '' );
