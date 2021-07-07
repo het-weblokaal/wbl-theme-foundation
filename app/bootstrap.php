@@ -50,5 +50,6 @@ array_map( function( $file ) {
 	'functions/helpers',
 	'functions/html-head',
 	'functions/page',
+	'functions/archive-page',
 	'functions/site',
 ] );
