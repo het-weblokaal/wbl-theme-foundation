@@ -174,24 +174,25 @@ final class Template {
 			$template_types[] = '404';
 		}
 		
+		// Custom page template
+		elseif ( $page_template = get_page_template_slug() ) {
+
+			// Strip potential .php extension from template name
+			$template_types[] = 'template--' . rtrim($page_template, '.php');
+		}
+
 		// Single template types
 		elseif (\is_singular()) {
-
-			// Custom page template
-			if ( $page_template = get_page_template_slug() ) {
-
-				// Strip potential .php extension from template name
-				$template_types[] = 'single--' . rtrim($page_template, '.php');
-			}
-			elseif ( is_front_page() ) {
-				$template_types[] = 'single--front-page';
+			
+			if ( is_front_page() ) {
+				$template_types[] = 'singular--front-page';
 			}
 
 			// Single post type
-			$template_types[] = 'single--' . get_queried_post_type();
+			$template_types[] = 'singular--' . get_queried_post_type();
 
 			// Default single
-			$template_types[] = 'single';
+			$template_types[] = 'singular';
 		}
 
 		// Archive template types
