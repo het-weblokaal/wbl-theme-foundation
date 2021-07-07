@@ -18,6 +18,7 @@ array_map( function( $file ) {
 	'classes/App',
 
 	// Functions
+	'setup/archive',
 	'setup/assets',
 	'setup/block-editor',
 	'setup/customizer',
