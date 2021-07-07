@@ -223,9 +223,13 @@ final class Template {
 			}
 			// All other archives
 			else {
+
+				if ( is_home() || is_post_type_archive() ) {
+					$template_types[] = 'archive--post-type';
+				}
 				
 				// Taxonomies
-				if (\is_category() || \is_tag() || \is_tax()) {
+				elseif (\is_category() || \is_tag() || \is_tax()) {
 
 					if (\is_category()) {
 						$template_types[] = 'archive--category';
@@ -240,7 +244,7 @@ final class Template {
 					$template_types[] = 'archive--tax';
 				}
 
-				$template_types[] = 'archive--' . get_post_type_on_archive();	
+				$template_types[] = 'archive--' . get_post_type_on_archive();
 			}
 
 			// Default archive

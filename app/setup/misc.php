@@ -48,6 +48,14 @@ function archive_description_filter( $desc ) {
 		$new_desc = get_the_post_type_description();
 	}
 
+	// if ( has_block( 'wbl-blocks/archive-loop', $new_desc ) ) {
+	// 	App::log('has archive block');
+	// }
+
+	if ( has_blocks( $new_desc ) ) {
+		$new_desc = do_blocks($new_desc);
+	}
+
 	return $new_desc ?: $desc;
 }
 
