@@ -20,6 +20,8 @@ function get_post_type_archive_page( $post_type = null ) {
 	$post_id   = false;
 	$post_type = ($post_type) ? $post_type : get_post_type();
 
+	// App::log($post_type);
+
 	// Posts
 	if ($post_type == 'post') {
 		$post_id = get_option( 'page_for_posts', false );
@@ -52,7 +54,7 @@ function get_post_type_archive_url( $post_type = null ) {
 	// Get post-id of archive page
 	$archive_post_id = get_post_type_archive_page( $post_type );
 
-	App::log($archive_post_id);
+	// App::log($archive_post_id);
 
 	// Get archive url
 	if ($archive_post_id) {
@@ -135,6 +137,8 @@ function get_post_type_archive_link( $post_type = null ) {
 function get_post_type_on_archive() {
 
 	$post_type = false;
+
+	// get_query_var( 'post_type' )
 
 	if ( is_home() || is_archive() ) {
 
