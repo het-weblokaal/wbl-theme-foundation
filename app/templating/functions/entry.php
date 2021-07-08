@@ -154,7 +154,7 @@ function render_entry_terms( array $args = [] ) {
 	$args['taxonomy'] = $args['taxonomy'] ?? 'category';
 
 	$args = wp_parse_args( $args, [
-		'class'       => 'entry-' . $args['taxonomy'],
+		'class'       => 'entry__term entry__term--' . $args['taxonomy'],
 		'link'        => true,
 		'term_format' => '%s',
 		'sep'         => ', ',
