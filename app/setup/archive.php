@@ -19,6 +19,7 @@ add_action( 'after_setup_theme', function() {
 
 	// Improve archive description
 	add_filter( 'get_the_archive_description', 'WBL\Theme\get_the_archive_description' );
+	add_filter( 'get_the_archive_description', 'WBL\Theme\archive_description_archive_loop', 89 );
 	add_filter( 'get_the_archive_description', 'WBL\Theme\archive_description_do_blocks', 99 );
 
 }, 5 );
@@ -73,21 +74,31 @@ function get_the_archive_description( $desc ) {
 	} elseif ( is_author() ) {
 		$new_desc = get_the_author_meta( 'description', get_query_var( 'author' ) );
 	}
-
+	
 	return $new_desc ?: $desc;
 }
 
-function archive_description_do_blocks( $desc = '' ) {
+/**
+ * Manage the loop in archive descriptions
+ */
+function archive_description_archive_loop( $desc = '' ) {
 
+	// Add archive loop if archive description has no archive loop block
 	if ( ! has_block( 'wbl-blocks/archive-loop', $desc ) ) {
 
-		$loop_format = ( is_search() ) ? 'search' : 'blog';
+		$loop_type = apply_filters( 'wbl/theme/template/loop/type', 'default', get_post_type_on_archive() );
 
-		$loop_format = apply_filters( 'wbl/theme/template/loop_format', $loop_format, get_post_type_on_archive() );
-
-		$desc .= Template::render( "loop/$loop_format" );
+		$desc .= Template::render( "loop/$loop_type" );
 	}
-	
+
+	return $desc;
+}
+
+/**
+ * Parse blocks on archive descriptions
+ */
+function archive_description_do_blocks( $desc = '' ) {
+
 	if ( has_blocks( $desc ) ) {
 		$desc = do_blocks($desc);
 	}
