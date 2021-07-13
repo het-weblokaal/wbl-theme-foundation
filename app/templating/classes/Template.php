@@ -115,7 +115,7 @@ final class Template {
     	}
     	else {
 			// App::log($templates);
-    		App::log( "Template not found: `$slug`");
+    		// App::log( "Template not found: `$slug`");
 		    return false;
     	}
 	}
