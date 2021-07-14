@@ -48,7 +48,8 @@ add_action( 'after_setup_theme', function() {
 	 * @link https://developer.wordpress.org/block-editor/how-to-guides/themes/theme-support/#block-font-sizes
 	 * @link https://developer.wordpress.org/block-editor/how-to-guides/themes/theme-support/#disabling-custom-font-sizes
 	 */
-	add_theme_support( 'editor-font-sizes' );
+	// add_theme_support( 'editor-font-sizes' );
+	add_theme_support( 'editor-font-sizes', [] );
 	add_theme_support( 'disable-custom-font-sizes' );
 
 	/**
@@ -98,7 +99,7 @@ add_action( 'after_setup_theme', function() {
 	 *
 	 * @link https://developer.wordpress.org/block-editor/reference-guides/filters/block-filters/#hiding-blocks-from-the-inserter
 	 */
-	add_filter( 'allowed_block_types', __NAMESPACE__ . '\allowed_block_types', 10, 2 );
+	add_filter( 'allowed_block_types_all', __NAMESPACE__ . '\allowed_block_types', 10, 2 );
 
 	/**
 	 * Show block-editor on page_for_posts page (blog/home)
