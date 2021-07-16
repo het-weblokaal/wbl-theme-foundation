@@ -27,43 +27,12 @@ add_action( 'after_setup_theme', function() {
  */
 function register_dependencies() {
 
-	$tgmpa_plugins = array(
-		[
-			'name'     => 'Slim SEO',
-			'slug'     => 'slim-seo',
-			'required' => false,
-		],
-		[
-			'name'     => 'WP Comment Humility',
-			'slug'     => 'wp-comment-humility',
-			'required' => false,
-		],
-		[
-			'name'     => 'Disable Emojis',
-			'slug'     => 'disable-emojis',
-			'required' => false,
-		],
-		[
-			'name'     => 'Regenerate Thumbnails',
-			'slug'     => 'regenerate-thumbnails',
-			'required' => false,
-		],
-		[
-			'name'     => 'Contextual Adminbar Color',
-			'slug'     => 'contextual-adminbar-color',
-			'required' => false,
-		],
-		[
-			'name'     => 'Redirection',
-			'slug'     => 'redirection',
-			'required' => false,
-		],
-		[
-			'name'     => 'Kirki Customizer Framework',
-			'slug'     => 'kirki',
-			'required' => true,
-		],
-	);
+	$tgmpa_plugins = apply_filters( 'wbl/theme/dependencies', [] );
+
+	// Don't register dependencies if none is present
+	if ( ! $tgmpa_plugins ) {
+		return;
+	}	
 
 	$tgmpa_config = [
 		'id'           => App::handle('tgmpa'),  // Unique ID for hashing notices for multiple instances of TGMPA.
@@ -78,7 +47,6 @@ function register_dependencies() {
 		'message'      => '',                      // Message to output right before the plugins table.
 	];
 
-	$tgmpa_plugins = apply_filters( 'wbl/theme/plugins', $tgmpa_plugins );
 
 	tgmpa( $tgmpa_plugins, $tgmpa_config );
 }
