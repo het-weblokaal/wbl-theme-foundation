@@ -13,9 +13,7 @@ add_action( 'after_setup_theme', function() {
 
 	// Improve archive title
 	add_filter( 'get_the_archive_title_prefix', 'WBL\Theme\get_the_archive_title_prefix' );
-	add_filter( 'get_the_archive_title', 'WBL\Theme\get_the_archive_title', 10, 3 );
-
-
+	add_filter( 'get_the_archive_title',        'WBL\Theme\get_the_archive_title', 10, 3 );
 
 	// Improve archive description
 	add_filter( 'get_the_archive_description', 'WBL\Theme\get_the_archive_description' );

@@ -21,36 +21,11 @@ add_action( 'after_setup_theme', function() {
 	add_theme_support( 'align-wide' );
 
 	/**
-	 * Disable the CUSTOM colors. 
-	 * 
-	 * We don't want users to get too creative..
+	 * Automatically transform editor styles by selectively rewriting or adjusting certain CSS selectors.  
 	 *
-	 * @link https://developer.wordpress.org/block-editor/how-to-guides/themes/theme-support/#disabling-custom-colors-in-block-color-palettes
+	 * @link https://developer.wordpress.org/block-editor/how-to-guides/themes/theme-support/#editor-styles
 	 */
-	add_theme_support( 'disable-custom-colors' );
-
-	/**
-	 * Disable all gradients. 
-	 *
-	 * We don't support this yet in our themes
-	 *
-	 * @link https://developer.wordpress.org/block-editor/how-to-guides/themes/theme-support/#block-gradient-presets
-	 * @link https://developer.wordpress.org/block-editor/how-to-guides/themes/theme-support/#disabling-custom-gradients
-	 */
-	add_theme_support( 'editor-gradient-presets' );
-	add_theme_support( 'disable-custom-gradients' );
-
-	/**
-	 * Disable all font-sizes. 
-	 *
-	 * Our policy is to let the theme decide on font sizes.
-	 *
-	 * @link https://developer.wordpress.org/block-editor/how-to-guides/themes/theme-support/#block-font-sizes
-	 * @link https://developer.wordpress.org/block-editor/how-to-guides/themes/theme-support/#disabling-custom-font-sizes
-	 */
-	// add_theme_support( 'editor-font-sizes' );
-	add_theme_support( 'editor-font-sizes', [] );
-	add_theme_support( 'disable-custom-font-sizes' );
+	add_theme_support( 'editor-styles' );
 
 	/**
 	 * Disable Core Block Patterns.
@@ -59,28 +34,6 @@ add_action( 'after_setup_theme', function() {
 	 */
 	remove_theme_support( 'core-block-patterns' );
 
-
-	/**
-	 * Automatically transform editor styles by selectively rewriting or adjusting certain CSS selectors.  
-	 *
-	 * @link https://developer.wordpress.org/block-editor/how-to-guides/themes/theme-support/#editor-styles
-	 */
-	add_theme_support( 'editor-styles' );
-
-	/**
-	 * Remove default block styles
-	 *
-	 * Core blocks include default structural styles. These are loaded in both the editor and the front end 
-	 * by default. An example of these styles is the CSS that powers the columns block. Without these rules, 
-	 * the block would result in a broken layout containing no columns at all.
-	 *
-	 * We take this responsibility on ourselves.
-	 *
-	 * @link https://developer.wordpress.org/block-editor/how-to-guides/themes/theme-support/#default-block-styles
-	 */	 
-	add_action( 'wp_enqueue_scripts', function() {
-		wp_dequeue_style( 'wp-block-library' );
-	} );
 	
 	/**
 	 * Remove access to the Block Directory (ie. installation of new blocks through the editor)
