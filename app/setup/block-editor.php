@@ -12,15 +12,6 @@ namespace WBL\Theme;
 add_action( 'after_setup_theme', function() {
 
 	/**
-	 * Add support for wide and full aligned blocks
-	 *
-	 * This adds nice layout diversity
-	 *
-	 * @link https://developer.wordpress.org/block-editor/how-to-guides/themes/theme-support/#wide-alignment
-	 */
-	add_theme_support( 'align-wide' );
-
-	/**
 	 * Automatically transform editor styles by selectively rewriting or adjusting certain CSS selectors.  
 	 *
 	 * @link https://developer.wordpress.org/block-editor/how-to-guides/themes/theme-support/#editor-styles
