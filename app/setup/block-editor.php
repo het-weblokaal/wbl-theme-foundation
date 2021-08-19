@@ -37,15 +37,6 @@ add_action( 'after_setup_theme', function() {
 	remove_action( 'enqueue_block_editor_assets', 'gutenberg_enqueue_block_editor_assets_block_directory' );
 
 	/**
-	 * Restrict the allowed blocks (opinionated)
-	 *
-	 * Themes can override this by hooking later to this filter.
-	 *
-	 * @link https://developer.wordpress.org/block-editor/reference-guides/filters/block-filters/#hiding-blocks-from-the-inserter
-	 */
-	add_filter( 'allowed_block_types_all', __NAMESPACE__ . '\allowed_block_types', 10, 2 );
-
-	/**
 	 * Show block-editor on page_for_posts page (blog/home)
 	 *
 	 * @link 
@@ -57,52 +48,6 @@ add_action( 'after_setup_theme', function() {
 # ------------------------------------------------------------------------------
 # Elaborate functionality
 # ------------------------------------------------------------------------------
-
-/**
- * Restrict allowed blocks
- *
- * @link https://gist.github.com/erikjoling/7b05c3e3411244d126808bab46529d78
- * @link https://github.com/WordPress/gutenberg/blob/trunk/packages/block-library/src/index.js 
- */
-function allowed_block_types( $allowed_blocks, $post ) {
-
-	$allowed_blocks = [
-
-		// Core blocks
-		'core/button',
-		'core/buttons',
-		'core/column',
-		'core/columns',
-		'core/cover',
-		'core/embed',
-		'core/file',
-		'core/group',
-		'core/heading',
-		'core/html',
-		'core/image',
-		'core/list',
-		'core/paragraph',
-		'core/pullquote',
-		'core/quote',
-		'core/table',
-
-		// WBL blocks
-		'wbl-blocks/archive-loop',
-		'wbl-blocks/posts',
-
-		// WBL other blocks
-		'wbl-projects/projects',
-
-		// Third Party blocks
-		'contact-form-7/contact-form-selector',
-	];
-
-	// Uncomment to allow all blocks
-	// $allowed_blocks = true;
-
-    return $allowed_blocks;
-}
-
 
 /**
  * Simulate non-empty content to enable Gutenberg editor
