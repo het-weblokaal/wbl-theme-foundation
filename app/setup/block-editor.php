@@ -42,6 +42,12 @@ add_action( 'after_setup_theme', function() {
 	 */
 	add_filter( 'replace_editor', __NAMESPACE__ . '\enable_block_editor_on_blog_page', 10, 2 );
 
+	/**
+	 * Disable block editor functionality
+	 */
+	add_filter( 'block_editor_settings_all', __NAMESPACE__ . '\disable_drop_cap_feature' );
+	add_filter( 'block_editor_settings_all', __NAMESPACE__ . '\disable_duotone_feature' );
+
 }, 5 );
 
 # ------------------------------------------------------------------------------
@@ -78,6 +84,30 @@ function filter_add_rest_orderby_params( $params ) {
 	$params['orderby']['enum'][] = 'menu_order';
 	return $params;
 }
+
+/**
+ * Disable the drop cap feature
+ * 
+ * @link https://github.com/joppuyo/disable-drop-cap/blob/master/remove-drop-cap.php
+ */
+function disable_drop_cap_feature( $editor_settings ) {
+
+    $editor_settings['__experimentalFeatures']['typography']['dropCap'] = false;
+
+    return $editor_settings;
+}
+
+/**
+ * Disable the duotone feature
+ */
+function disable_duotone_feature( $editor_settings ) {
+
+    $editor_settings['__experimentalFeatures']['color']['customDuotone'] = false;
+    $editor_settings['__experimentalFeatures']['color']['duotone'] = false;
+
+    return $editor_settings;
+}
+
 
 /**
  * Get global styles (wp 5.8)
