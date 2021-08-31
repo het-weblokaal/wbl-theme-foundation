@@ -27,8 +27,9 @@ function render_site_logo() {
 	}
 
 	// Try theme svg logo
-	elseif ($svg = App::svg('logo')) {
-		$html = $svg;
+	elseif (file_exists(App::assets_path('svg/logo.svg'))) {
+
+		$html = App::svg('logo');
 	}
 
 	// Try custom logo
