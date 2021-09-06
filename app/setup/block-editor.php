@@ -47,6 +47,8 @@ add_action( 'after_setup_theme', function() {
 	 */
 	add_filter( 'block_editor_settings_all', __NAMESPACE__ . '\disable_drop_cap_feature' );
 	add_filter( 'block_editor_settings_all', __NAMESPACE__ . '\disable_duotone_feature' );
+	add_filter( 'block_editor_settings_all', __NAMESPACE__ . '\disable_layout_feature' );
+	add_filter( 'block_editor_settings_all', __NAMESPACE__ . '\disable_template_editor' );
 
 }, 5 );
 
@@ -92,7 +94,9 @@ function filter_add_rest_orderby_params( $params ) {
  */
 function disable_drop_cap_feature( $editor_settings ) {
 
-    $editor_settings['__experimentalFeatures']['typography']['dropCap'] = false;
+	if (isset($editor_settings['__experimentalFeatures']['typography']['dropCap'])) {
+		$editor_settings['__experimentalFeatures']['typography']['dropCap'] = false;
+	}
 
     return $editor_settings;
 }
@@ -102,8 +106,35 @@ function disable_drop_cap_feature( $editor_settings ) {
  */
 function disable_duotone_feature( $editor_settings ) {
 
-    $editor_settings['__experimentalFeatures']['color']['customDuotone'] = false;
-    $editor_settings['__experimentalFeatures']['color']['duotone'] = false;
+	if (isset($editor_settings['__experimentalFeatures']['color']['duotone'])) {
+	    $editor_settings['__experimentalFeatures']['color']['customDuotone'] = false;
+	    $editor_settings['__experimentalFeatures']['color']['duotone'] = false;
+	}
+
+    return $editor_settings;
+}
+
+/**
+ * Disable the layout feature
+ */
+function disable_layout_feature( $editor_settings ) {
+
+	// App::log($editor_settings);
+	if (isset($editor_settings['supportsLayout'])) {
+    	$editor_settings['supportsLayout'] = false;
+    }
+
+    return $editor_settings;
+}
+
+/**
+ * Disable the template editor
+ */
+function disable_template_editor( $editor_settings ) {
+
+	if (isset($editor_settings['supportsTemplateMode'])) {
+    	$editor_settings['supportsTemplateMode'] = false;
+    }
 
     return $editor_settings;
 }
