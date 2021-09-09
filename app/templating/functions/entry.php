@@ -263,3 +263,13 @@ function render_featured_image( array $args = [] ) {
 
 	return apply_filters( 'wbl/theme/entry/image', $html, $image_id, $args );
 }
+
+/**
+ * Display the post featured image
+ *
+ * @param  array  $args
+ * @return void
+ */
+function display_featured_image( array $args = [] ) {
+	echo render_featured_image( $args );
+}
