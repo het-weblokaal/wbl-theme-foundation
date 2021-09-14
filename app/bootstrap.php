@@ -53,4 +53,5 @@ array_map( function( $file ) {
 	'functions/page',
 	'functions/archive-page',
 	'functions/site',
+	'functions/theme-json',
 ] );
