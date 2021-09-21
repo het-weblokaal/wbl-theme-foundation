@@ -146,7 +146,6 @@ final class App {
 			'blocks_dir'     => 'app/blocks',
 			'lang_dir'       => 'assets/lang',
 			'vendor_dir'     => 'vendor',
-			'foundation_dir' => 'vendor/het-weblokaal/wbl-theme-foundation'
 		] );
 
 		/**
@@ -166,7 +165,6 @@ final class App {
 		static::set_blocks_dir( $args['blocks_dir'] );
 		static::set_lang_dir( $args['lang_dir'] );
 		static::set_vendor_dir( $args['vendor_dir'] );
-		static::set_foundation_dir( $args['foundation_dir'] );
 		static::set_mix_manifest();
 
 	}
@@ -193,16 +191,6 @@ final class App {
 	public static function get_name() {
 
 		return static::$name;
-	}
-
-	/**
-	 * Gets the app directory path with trailing slash.
-	 *
-	 * @return string
-	 */
-	public static function get_foundation_dir() {
-
-		return static::$foundation_dir;
 	}
 
 	/**
@@ -458,16 +446,6 @@ final class App {
 	private static function set_vendor_dir( $vendor_dir ) {
 
 		static::$vendor_dir = trim($vendor_dir, '/');
-	}
-
-	/**
-	 * Sets the foundation directory (without outer slashes)
-	 *
-	 * @return void
-	 */
-	private static function set_foundation_dir( $foundation_dir ) {
-
-		static::$foundation_dir = trim($foundation_dir, '/');
 	}
 
 	/**
