@@ -29,8 +29,6 @@ function register_dependencies() {
 
 	$plugins = apply_filters( 'wbl/theme/dependencies', [] );
 
-	App::log($plugins);
-
 	// Don't register dependencies if none is present
 	if ( ! $plugins ) {
 		return;
