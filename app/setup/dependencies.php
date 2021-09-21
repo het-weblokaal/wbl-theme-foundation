@@ -22,7 +22,11 @@ add_action( 'after_setup_theme', function() {
 
 /**
  * Register the required plugins for this theme.
+ * 
+ * Note: if the plugin is locally installed through symbolic link then
+ * the plugin is not shown in the list. Which is fine :)
  *
+ * @link https://github.com/TGMPA/TGM-Plugin-Activation/
  * @link https://github.com/TGMPA/TGM-Plugin-Activation/blob/develop/example.php
  */
 function register_dependencies() {
