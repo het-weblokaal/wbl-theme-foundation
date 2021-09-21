@@ -27,14 +27,16 @@ add_action( 'after_setup_theme', function() {
  */
 function register_dependencies() {
 
-	$tgmpa_plugins = apply_filters( 'wbl/theme/dependencies', [] );
+	$plugins = apply_filters( 'wbl/theme/dependencies', [] );
+
+	App::log($plugins);
 
 	// Don't register dependencies if none is present
-	if ( ! $tgmpa_plugins ) {
+	if ( ! $plugins ) {
 		return;
-	}	
+	}
 
-	$tgmpa_config = [
+	$config = [
 		'id'           => App::handle('tgmpa'),  // Unique ID for hashing notices for multiple instances of TGMPA.
 		'default_path' => '',                      // Default absolute path to bundled plugins.
 		'menu'         => 'tgmpa-install-plugins', // Menu slug.
@@ -47,6 +49,5 @@ function register_dependencies() {
 		'message'      => '',                      // Message to output right before the plugins table.
 	];
 
-
-	tgmpa( $tgmpa_plugins, $tgmpa_config );
+	tgmpa( $plugins, $config );
 }
