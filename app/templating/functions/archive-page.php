@@ -28,13 +28,13 @@ function get_post_type_archive_page( $post_type = null ) {
 	// WBL Projects
 	elseif ($post_type == 'wbl_project') {
 
-		if ( method_exists( 'WBL\Projects\PostType', 'get_page_for_projects' ) ) {
-			$post_id = \WBL\Projects\PostType::get_page_for_projects();
+		if ( method_exists( 'WBL\Projects\PostType', 'get_archive_page' ) ) {
+			$post_id = \WBL\Projects\PostType::get_archive_page();
 		}
 	}
 
 	// Allow theme to override
-	$post_id = apply_filters( 'post_type_archive_page', $post_id, $post_type );
+	$post_id = apply_filters( 'WBL\Theme\post_type_archive_page', $post_id, $post_type );
 
 	return $post_id;
 }
@@ -64,7 +64,7 @@ function get_post_type_archive_url( $post_type = null ) {
 		}
 	}
 
-	$url = apply_filters( 'post_type_archive_url', $url, $post_type );
+	$url = apply_filters( 'WBL\Theme\post_type_archive_url', $url, $post_type );
 
 	return $url;
 }
@@ -79,9 +79,12 @@ function get_post_type_archive_title( $post_type = null ) {
 	$title     = false;
 	$post_type = ($post_type) ? $post_type : get_post_type();
 
+	// Set the archive page as the title
 	if ($post_id = get_post_type_archive_page( $post_type )) {
 		$title = get_the_title($post_id);
 	}
+
+	// Or fallback to default titles
 	else {
 		if ($post_type == 'post') {
 			$title = 'Blog';
@@ -91,10 +94,13 @@ function get_post_type_archive_title( $post_type = null ) {
 			if ( function_exists('WBL\Projects\PostType::get_name') ) {
 				$title = \WBL\Projects\PostType::get_name();
 			}
+			else {
+				$title = 'Projects';
+			}
 		}
 	}
 
-	$title = apply_filters( 'post_type_archive_title', $title, $post_type );
+	$title = apply_filters( 'WBL\Theme\post_type_archive_title', $title, $post_type );
 
 	return $title;
 }
@@ -105,6 +111,7 @@ function get_post_type_archive_title( $post_type = null ) {
  * @return string or false
  */
 function get_post_type_archive_link( $post_type = null ) {
+
 	$link = false;
 	$post_type = ($post_type) ? $post_type : get_post_type();
 
