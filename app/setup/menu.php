@@ -11,6 +11,9 @@ namespace WBL\Theme;
 
 add_action( 'after_setup_theme', function() {
 
+	// Register site navigation
+	add_action( 'init', __NAMESPACE__ . '\register_site_nav', 5 );
+
 	// Menu Class
 	add_filter( 'nav_menu_css_class',         'WBL\Theme\nav_menu_css_class',         5, 2 );
 	add_filter( 'nav_menu_item_id',           'WBL\Theme\nav_menu_item_id',           5    );
@@ -19,22 +22,22 @@ add_action( 'after_setup_theme', function() {
 
 }, 5 );
 
+
+# ------------------------------------------------------------------------------
+# Functions
+# ------------------------------------------------------------------------------
+
 /**
- * Init hook menus
+ * Register site nav
  */
-add_action( 'init', function() {
+function register_site_nav() {
 
 	// Register site navigation
 	register_nav_menus( [
 		'site-nav'     => esc_html_x( 'Website navigation', 'nav menu location' ),
 	] );
 
-}, 5 );
-
-# ------------------------------------------------------------------------------
-# Functions
-# ------------------------------------------------------------------------------
-
+}
 
 /**
  * Get menu_name by location
