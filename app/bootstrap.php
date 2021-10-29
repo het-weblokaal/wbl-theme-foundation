@@ -36,6 +36,7 @@ array_map( function( $file ) {
 	'setup/password-protection',
 	'setup/polylang',
 	'setup/seo',
+	'setup/shortcodes',
 	'setup/site',
 ] );
 
