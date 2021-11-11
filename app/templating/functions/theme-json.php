@@ -5,7 +5,7 @@
  * Our own simple API for getting the theme.json data
  */
 
-namespace WBL\Theme;
+namespace WBL\Theme\Foundation;
 
 /**
  * Get theme colors from theme.json
