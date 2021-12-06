@@ -78,6 +78,7 @@ final class Template {
 		];
 
 		// App::log($template_data);
+		// App::log($slug);
 
 		// Allow to change the template data
 		$template_data = apply_filters( "wbl/theme/template/data/{$slug}", $template_data);
