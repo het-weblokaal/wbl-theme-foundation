@@ -32,7 +32,7 @@ add_action( 'after_setup_theme', function() {
  */
 function custom_templates( $templates, $theme, $post, $post_type ) {
 
-	$templates['landing-page'] = 'Landing Page';
+	$templates['landing-page'] = 'Landingspagina';
 
 	return $templates;
 }
