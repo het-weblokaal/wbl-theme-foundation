@@ -12,7 +12,7 @@ namespace WBL\Theme;
 add_action( 'after_setup_theme', function() {
 
 	// Register site navigation
-	add_action( 'init', __NAMESPACE__ . '\register_site_nav', 5 );
+	add_action( 'init', 'WBL\Theme\register_site_nav', 5 );
 
 	// Menu Class
 	add_filter( 'nav_menu_css_class',         'WBL\Theme\nav_menu_css_class',         5, 2 );
@@ -109,11 +109,11 @@ function nav_menu_css_class( $classes, $item ) {
     // [3] => menu-item-object-page
     // [4] => menu-item-14
 
-	$_classes = [ 'menu__item' ];
+	$new_classes = [ 'menu__item' ];
 
 	// 404 has no active menu items
 	if (is_404()) {
-		return $_classes;
+		return $new_classes;
 	}
 
 	// App::log($classes);
@@ -124,7 +124,7 @@ function nav_menu_css_class( $classes, $item ) {
 
 		if ( in_array( "current-menu-{$type}", $classes ) ) {
 
-			$_classes[] = ('item' === $type) ? 'menu__item--current' : "menu__item--{$type}";
+			$new_classes[] = ('item' === $type) ? 'menu__item--current' : "menu__item--{$type}";
 		}
 	}
 
@@ -132,24 +132,24 @@ function nav_menu_css_class( $classes, $item ) {
 
 	// If the menu item is a post type archive and we're viewing a single
 	// post of that post type, the menu item should be an ancestor.
-	if ( 'post_type_archive' === $item->type && is_singular( $item->object ) && ! in_array( 'menu__item--ancestor', $_classes ) ) {
-		$_classes[] = 'menu__item--ancestor';
+	if ( 'post_type_archive' === $item->type && is_singular( $item->object ) && ! in_array( 'menu__item--ancestor', $new_classes ) ) {
+		$new_classes[] = 'menu__item--ancestor';
 	}
 
-	// // Fix modifiers for agenda archive page
-	// if ( $item->object_id === get_post_type_archive_page() ) {
+	// Fix modifiers for agenda archive page
+	if ( $item->object_id === \WBL\Theme\get_post_type_archive_page() ) {
 
-	// 	if ( \is_post_type_archive('wbl_project') ) {
-	// 		$_classes[] = 'menu__item--current';
-	// 	}
-	// 	elseif ( \is_singular('wbl_project') ) {
-	// 		$_classes[] = 'menu__item--ancestor';
-	// 	}
-	// }
+		if ( \is_post_type_archive('wbl_project') ) {
+			$new_classes[] = 'menu__item--current';
+		}
+		elseif ( \is_singular('wbl_project') ) {
+			$new_classes[] = 'menu__item--ancestor';
+		}
+	}
 
 	// Add a class if the menu item has children.
 	if ( in_array( 'menu-item-has-children', $classes ) ) {
-		$_classes[] = 'has-children';
+		$new_classes[] = 'has-children';
 	}
 
 	// 3. Custom classes by user
@@ -158,10 +158,10 @@ function nav_menu_css_class( $classes, $item ) {
 	$custom = get_post_meta( $item->ID, '_menu_item_classes', true );
 
 	if ( $custom ) {
-		$_classes = array_merge( $_classes, (array) $custom );
+		$new_classes = array_merge( $new_classes, (array) $custom );
 	}
 
-	return $_classes;
+	return apply_filters( 'wbl/theme/nav_menu/classes', $new_classes, $classes, $item );
 }
 
 
