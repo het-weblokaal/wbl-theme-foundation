@@ -34,7 +34,7 @@ function get_post_type_archive_page( $post_type = null ) {
 	}
 
 	// Allow theme to override
-	$post_id = apply_filters( 'WBL\Theme\post_type_archive_page', $post_id, $post_type );
+	$post_id = apply_filters( 'wbl/theme/post_type_archive_page', $post_id, $post_type );
 
 	return $post_id;
 }
@@ -64,7 +64,7 @@ function get_post_type_archive_url( $post_type = null ) {
 		}
 	}
 
-	$url = apply_filters( 'WBL\Theme\post_type_archive_url', $url, $post_type );
+	$url = apply_filters( 'wbl/theme/post_type_archive_url', $url, $post_type );
 
 	return $url;
 }
@@ -100,7 +100,7 @@ function get_post_type_archive_title( $post_type = null ) {
 		}
 	}
 
-	$title = apply_filters( 'WBL\Theme\post_type_archive_title', $title, $post_type );
+	$title = apply_filters( 'wbl/theme/post_type_archive_title', $title, $post_type );
 
 	return $title;
 }
