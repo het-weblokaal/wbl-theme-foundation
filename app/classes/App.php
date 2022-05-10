@@ -629,7 +629,27 @@ final class App {
 		$svg = '';
 
 		if ($name) {
-			$svg = file_get_contents( static::asset( "svg/{$name}.svg" ) );
+			
+			$context = null; 
+
+			/**
+			 * Skip SSL check on local development due to SSL error
+			 * 
+			 * @link https://stackoverflow.com/questions/26148701/file-get-contents-ssl-operation-failed-with-code-1-failed-to-enable-crypto#26151993
+			 */
+			if ( wp_get_environment_type() == 'local' ) {
+
+				$contextOptions = array(
+				    "ssl" => array(
+				        "verify_peer" => false,
+				        "verify_peer_name" => false,
+				    )
+				);
+
+				$context = stream_context_create( $contextOptions );
+			}
+
+			$svg = file_get_contents( static::asset( "svg/{$name}.svg" ), false, $context );
 			$svg = ($svg) ? $svg : '';
 		}
 
